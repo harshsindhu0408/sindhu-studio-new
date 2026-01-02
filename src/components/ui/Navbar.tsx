@@ -180,7 +180,7 @@ export function Navbar() {
             <AnimatePresence>
                 {isMobileMenuOpen && (
                     <motion.div
-                        className="fixed inset-0 z-40 flex flex-col items-center justify-center bg-background/95 backdrop-blur-lg md:hidden"
+                        className="fixed inset-0 z-40 flex flex-col items-center justify-start pt-32 overflow-y-auto bg-background/95 backdrop-blur-lg md:hidden"
                         initial={{ opacity: 0, x: "100%" }}
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: "100%" }}
