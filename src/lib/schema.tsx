@@ -39,20 +39,20 @@ export function getLocalBusinessSchema(): LocalBusinessSchema {
     return {
         "@context": "https://schema.org",
         "@type": "LocalBusiness",
-        "@id": "https://sindhustudio.in",
+        "@id": "https://sindhustudio.com",
         name: "Sindhu Studio",
         image: [
-            "https://sindhustudio.in/images/studio-1.jpg",
-            "https://sindhustudio.in/images/studio-2.jpg",
+            "https://sindhustudio.com/images/studio-1.jpg",
+            "https://sindhustudio.com/images/studio-2.jpg",
         ],
         description:
             "Premium photography studio specializing in wedding, pre-wedding, maternity, and portrait photography in Rohtak, India.",
-        url: "https://sindhustudio.in",
+        url: "https://sindhustudio.com",
         telephone: "+91-94163-70132",
         email: "sindhustudiorohtak@gmail.com",
         address: {
             "@type": "PostalAddress",
-            streetAddress: "Shop no. 17, Sindhu Digital Studio, Delhi Road, opp. Balmev plaza, Dev Colony, Rohtak, Haryana, India",
+            streetAddress: "Shop no. 19, Sindhu Digital Studio, Delhi Road, opp. Balmev plaza, Dev Colony, Rohtak, Haryana, India",
             addressLocality: "Rohtak",
             addressRegion: "Haryana",
             postalCode: "124001",
@@ -110,7 +110,7 @@ export function getPhotographyServiceSchema(
         provider: {
             "@type": "LocalBusiness",
             name: "Sindhu Studio",
-            url: "https://sindhustudio.in",
+            url: "https://sindhustudio.com",
         },
         serviceType,
         areaServed: {
@@ -140,15 +140,15 @@ export function getOrganizationSchema(): OrganizationSchema {
         "@context": "https://schema.org",
         "@type": "Organization",
         name: "Sindhu Studio",
-        url: "https://sindhustudio.in",
-        logo: "https://sindhustudio.in/logo.png",
+        url: "https://sindhustudio.com",
+        logo: "https://sindhustudio.com/logo.png",
         description:
-            "Premium photography studio capturing life's most precious moments with artistry and passion since 2009.",
+            "Premium photography studio capturing life's most precious moments with artistry and passion since 2000.",
         founder: {
             "@type": "Person",
             name: "Rajesh Sindhu",
         },
-        foundingDate: "2009",
+        foundingDate: "2000",
         sameAs: [
             "https://www.instagram.com/sindhustudio",
             "https://www.facebook.com/sindhustudio",

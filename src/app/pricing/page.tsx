@@ -251,7 +251,7 @@ export default function PricingPage() {
                                     <div>
                                         <p className="text-lg font-medium">Headquarters</p>
                                         <p className="mt-1 text-foreground-muted">
-                                            Shop no. 17, Delhi Road,<br />
+                                            Shop no. 19, Delhi Road,<br />
                                             Opp. Balmev Plaza, Dev Colony,<br />
                                             Rohtak, Haryana, India
                                         </p>

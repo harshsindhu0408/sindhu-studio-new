@@ -25,6 +25,7 @@ const footerLinks = {
         { label: "Our Portfolio", href: "/portfolio" },
         { label: "Contact", href: "/contact" },
         { label: "Privacy Policy", href: "/privacy" },
+        { label: "Terms & Conditions", href: "/terms" },
     ],
     social: [
         { label: "Instagram", href: "https://instagram.com", icon: Instagram },
@@ -36,7 +37,7 @@ const footerLinks = {
 const contactInfo = {
     email: "sindhustudiorohtak@gmail.com",
     phone: "+91 94163 70132",
-    address: "Shop no. 17, Sindhu Digital Studio, Delhi Road, opp. Balmev plaza, Dev Colony, Rohtak, Haryana, India",
+    address: "Shop no. 19, Sindhu Digital Studio, Delhi Road, opp. Balmev plaza, Dev Colony, Rohtak, Haryana, India",
 };
 
 export function Footer() {

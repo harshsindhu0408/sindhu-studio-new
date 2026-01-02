@@ -404,7 +404,7 @@ export default function ContactPage() {
                                         <div>
                                             <p className="font-medium">Studio</p>
                                             <p className="text-sm text-foreground-muted">
-                                                Shop no. 17, Sindhu DigitalStudio,
+                                                Shop no. 19, Sindhu DigitalStudio,
                                                 <br />
                                                 Delhi Road, opp. Balmev Plaza,
                                                 <br />

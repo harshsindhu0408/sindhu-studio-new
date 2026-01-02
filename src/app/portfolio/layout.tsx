@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     openGraph: {
         title: "Our Portfolio | Sindhu Studio",
         description: "Witness the magic of love through our lens. View our latest wedding and portrait work.",
-        url: "https://sindhustudio.in/portfolio",
+        url: "https://sindhustudio.com/portfolio",
         images: [
             {
                 url: "/images/portfolio-cover.jpg",

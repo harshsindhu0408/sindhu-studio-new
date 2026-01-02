@@ -220,7 +220,7 @@ export default function PrivacyPage() {
                                                 Phone: +91 9416370132
                                             </p>
                                             <p className="text-foreground-muted">
-                                                Address: Shop no. 17, Sindhu Digital Studio, Delhi Road, opp. Balmev plaza, Dev Colony, Rohtak, Haryana, India
+                                                Address: Shop no. 19, Sindhu Digital Studio, Delhi Road, opp. Balmev plaza, Dev Colony, Rohtak, Haryana, India
                                             </p>
                                         </div>
                                     </section>

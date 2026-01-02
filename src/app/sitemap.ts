@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    const baseUrl = "https://sindhustudio.in";
+    const baseUrl = "https://sindhustudio.com";
 
     // Static pages
     const staticPages = [
@@ -31,6 +31,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
         },
         {
             url: `${baseUrl}/privacy`,
+            lastModified: new Date(),
+            changeFrequency: "yearly" as const,
+            priority: 0.3,
+        },
+        {
+            url: `${baseUrl}/terms`,
             lastModified: new Date(),
             changeFrequency: "yearly" as const,
             priority: 0.3,

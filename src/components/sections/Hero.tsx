@@ -29,14 +29,19 @@ export function Hero() {
                 {/* Base */}
                 <div className="absolute inset-0 bg-background" />
 
-                {/* Golden Gradient Orbs - Creates the premium atmosphere */}
-                <div className="absolute -top-[20%] -right-[10%] h-[80vh] w-[80vh] rounded-full bg-accent/15 blur-[120px] mix-blend-screen" />
-                <div className="absolute -bottom-[20%] -left-[10%] h-[60vh] w-[60vh] rounded-full bg-accent/10 blur-[100px] mix-blend-screen" />
-                <div className="absolute top-1/2 left-1/2 h-[50vh] w-[100vw] -translate-x-1/2 -translate-y-1/2 bg-accent/5 blur-[80px]" />
+                {/* Mobile: Clean Gradient */}
+                <div className="absolute inset-0 bg-gradient-to-b from-background via-accent/5 to-background md:hidden" />
 
-                {/* Vignette Overlay for Focus */}
-                <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-transparent to-background" />
-                <div className="absolute inset-0 bg-gradient-to-r from-background/50 via-transparent to-background/50" />
+                {/* Desktop: Rich Golden Gradient Mesh */}
+                <div className="hidden md:block absolute -top-[10%] -right-[10%] h-[70vh] w-[70vh] rounded-full bg-accent/20 blur-[100px] mix-blend-multiply dark:mix-blend-screen" />
+                <div className="hidden md:block absolute -bottom-[10%] -left-[10%] h-[60vh] w-[60vh] rounded-full bg-accent/15 blur-[90px] mix-blend-multiply dark:mix-blend-screen" />
+                <div className="hidden md:block absolute top-1/2 left-1/2 h-[40vh] w-[80vw] -translate-x-1/2 -translate-y-1/2 bg-accent/10 blur-[80px]" />
+
+                {/* Subtle Grain Texture for Premium Feel */}
+                <div className="absolute inset-0 opacity-20 dark:opacity-10 bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+
+                {/* Vignette */}
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/10 to-background" />
             </motion.div>
 
             {/* Content */}
@@ -65,7 +70,7 @@ export function Hero() {
                         Capturing Life&apos;s
                     </motion.h1>
                 </div>
-                <div className="overflow-hidden">
+                <div className="overflow-visible lg:overflow-hidden pr-4 pb-2">
                     <motion.h1
                         className="font-display text-5xl font-medium leading-tight tracking-tight md:text-7xl lg:text-8xl"
                         initial={{ y: "100%" }}

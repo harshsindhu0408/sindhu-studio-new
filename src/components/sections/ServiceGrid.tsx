@@ -17,7 +17,6 @@ interface Service {
     title: string;
     description: string;
     href: string;
-    accent: string;
 }
 
 const services: Service[] = [
@@ -27,7 +26,6 @@ const services: Service[] = [
         description:
             "Capturing the magic of your special day with artistry and emotion. From intimate ceremonies to grand celebrations.",
         href: "/portfolio?category=wedding",
-        accent: "from-rose-500/20 to-pink-500/20",
     },
     {
         icon: Camera,
@@ -35,7 +33,6 @@ const services: Service[] = [
         description:
             "Romantic sessions that tell your love story. Scenic locations and creative concepts for unforgettable memories.",
         href: "/portfolio?category=pre-wedding",
-        accent: "from-amber-500/20 to-orange-500/20",
     },
     {
         icon: Baby,
@@ -43,7 +40,6 @@ const services: Service[] = [
         description:
             "Celebrating the beautiful journey of motherhood. Elegant and intimate portraits honoring this precious time.",
         href: "/portfolio?category=maternity",
-        accent: "from-purple-500/20 to-violet-500/20",
     },
     {
         icon: Sparkles,
@@ -51,7 +47,6 @@ const services: Service[] = [
         description:
             "Preserving the wonder and joy of childhood. Candid moments and playful sessions that capture pure happiness.",
         href: "/portfolio?category=child",
-        accent: "from-cyan-500/20 to-blue-500/20",
     },
     {
         icon: Users,
@@ -59,7 +54,6 @@ const services: Service[] = [
         description:
             "Professional portraits that make lasting impressions. Elegant headshots and family portraits with sophistication.",
         href: "/portfolio?category=matrimony",
-        accent: "from-emerald-500/20 to-teal-500/20",
     },
 ];
 
@@ -101,28 +95,26 @@ export function ServiceGrid() {
 
                 {/* Services Grid */}
                 <StaggerContainer className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                    {services.map((service, index) => (
+                    {services.map((service) => (
                         <StaggerItem key={service.title}>
                             <Link href={service.href} data-cursor="pointer" data-cursor-text="View">
                                 <motion.div
-                                    className="group relative h-full overflow-hidden rounded-lg border border-border bg-card p-8 transition-all duration-500 hover:border-accent/50"
-                                    whileHover={{ y: -8 }}
+                                    className="group relative h-full overflow-hidden rounded-lg border border-border bg-card p-8 transition-all duration-500 hover:border-accent hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:hover:shadow-[0_8px_30px_rgba(255,215,0,0.05)]"
+                                    whileHover={{ y: -6 }}
                                     transition={{ duration: 0.3 }}
                                 >
-                                    {/* Background gradient on hover */}
-                                    <div
-                                        className={`absolute inset-0 bg-gradient-to-br ${service.accent} opacity-0 transition-opacity duration-500 group-hover:opacity-100`}
-                                    />
+                                    {/* Subtle Overlay instead of strong gradient */}
+                                    <div className="absolute inset-0 bg-gradient-to-b from-transparent to-accent/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
                                     {/* Content */}
                                     <div className="relative z-10">
                                         {/* Icon */}
-                                        <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-full border border-border bg-background transition-all duration-300 group-hover:border-accent group-hover:bg-accent group-hover:text-accent-foreground">
+                                        <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-full border border-border bg-background transition-all duration-300 group-hover:border-accent group-hover:bg-accent group-hover:text-accent-foreground group-hover:scale-110">
                                             <service.icon className="h-6 w-6" />
                                         </div>
 
                                         {/* Title */}
-                                        <h3 className="font-display text-2xl font-medium">
+                                        <h3 className="font-display text-2xl font-medium group-hover:text-accent transition-colors duration-300">
                                             {service.title}
                                         </h3>
 
@@ -132,7 +124,7 @@ export function ServiceGrid() {
                                         </p>
 
                                         {/* Link indicator */}
-                                        <div className="mt-6 flex items-center gap-2 text-sm font-medium text-accent opacity-0 transition-all duration-300 group-hover:opacity-100">
+                                        <div className="mt-6 flex items-center gap-2 text-sm font-medium text-accent opacity-0 -translate-x-4 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0">
                                             <span>Explore</span>
                                             <motion.span
                                                 animate={{ x: [0, 4, 0] }}
@@ -143,8 +135,8 @@ export function ServiceGrid() {
                                         </div>
                                     </div>
 
-                                    {/* Corner decoration */}
-                                    <div className="absolute bottom-0 right-0 h-16 w-16 translate-x-8 translate-y-8 rounded-full border border-accent/20 transition-transform duration-500 group-hover:translate-x-4 group-hover:translate-y-4" />
+                                    {/* Simple Border Accent at bottom */}
+                                    <div className="absolute bottom-0 left-0 w-full h-[2px] bg-accent transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
                                 </motion.div>
                             </Link>
                         </StaggerItem>

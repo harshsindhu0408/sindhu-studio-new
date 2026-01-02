@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     openGraph: {
         title: "Wedding Photography Packages | Sindhu Studio Rohtak",
         description: "Transparent pricing for clear memories. Check out our Silver, Gold, and Platinum wedding packages.",
-        url: "https://sindhustudio.in/pricing",
+        url: "https://sindhustudio.com/pricing",
         images: [
             {
                 url: "/images/pricing-bg.jpg", // Assuming generic fallback or specific
