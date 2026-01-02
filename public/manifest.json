@@ -1,0 +1,16 @@
+{
+    "name": "Sindhu Studio",
+    "short_name": "Sindhu Studio",
+    "description": "Capturing life's most precious moments with artistry and passion. Premium wedding, pre-wedding, maternity, and portrait photography.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#1a1a1a",
+    "theme_color": "#1a1a1a",
+    "icons": [
+        {
+            "src": "/favicon.ico",
+            "sizes": "64x64 32x32 24x24 16x16",
+            "type": "image/x-icon"
+        }
+    ]
+}

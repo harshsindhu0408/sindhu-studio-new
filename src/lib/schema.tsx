@@ -60,8 +60,8 @@ export function getLocalBusinessSchema(): LocalBusinessSchema {
         },
         geo: {
             "@type": "GeoCoordinates",
-            latitude: 19.076,
-            longitude: 72.8777,
+            latitude: 28.8955,
+            longitude: 76.6066,
         },
         openingHoursSpecification: [
             {
@@ -146,7 +146,7 @@ export function getOrganizationSchema(): OrganizationSchema {
             "Premium photography studio capturing life's most precious moments with artistry and passion since 2000.",
         founder: {
             "@type": "Person",
-            name: "Rajesh Sindhu",
+            name: "Krishan Sindhu",
         },
         foundingDate: "2000",
         sameAs: [
