@@ -6,6 +6,7 @@ import { SmoothScroll } from "@/components/ui/SmoothScroll";
 import { CustomCursor } from "@/components/ui/CustomCursor";
 import { Navbar } from "@/components/ui/Navbar";
 import { Footer } from "@/components/ui/Footer";
+import { ScrollToTop } from "@/components/ui/ScrollToTop";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -20,20 +21,20 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://sindhustudio.com"),
+  metadataBase: new URL("https://sindhustudio.in"),
   title: {
     default: "Sindhu Studio | Premium Photography Studio",
     template: "%s | Sindhu Studio",
   },
   description:
-    "Capturing life's most precious moments with artistry and passion. Premium wedding, pre-wedding, maternity, and portrait photography in Mumbai.",
+    "Capturing life's most precious moments with artistry and passion. Premium wedding, pre-wedding, maternity, and portrait photography in Rohtak.",
   keywords: [
     "photography studio",
     "wedding photography",
     "pre-wedding photoshoot",
     "maternity photography",
     "portrait photography",
-    "Mumbai photographer",
+    "Rohtak photographer",
     "candid photography",
     "professional photographer",
   ],
@@ -48,7 +49,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_IN",
-    url: "https://sindhustudio.com",
+    url: "https://sindhustudio.in",
     siteName: "Sindhu Studio",
     title: "Sindhu Studio | Premium Photography Studio",
     description:
@@ -109,6 +110,7 @@ export default function RootLayout({
             <main>{children}</main>
             <Footer />
           </SmoothScroll>
+          <ScrollToTop />
         </ThemeProvider>
       </body>
     </html>

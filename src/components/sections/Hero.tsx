@@ -21,22 +21,22 @@ export function Hero() {
             ref={containerRef}
             className="relative flex min-h-screen items-center justify-center overflow-hidden"
         >
-            {/* Background Image with Parallax */}
+            {/* Background Atmosphere */}
             <motion.div
                 className="absolute inset-0 z-0"
                 style={{ y, scale }}
             >
-                {/* Gradient overlay */}
-                <div className="absolute inset-0 z-10 bg-gradient-to-b from-background/80 via-background/40 to-background" />
-                <div className="absolute inset-0 z-10 bg-gradient-to-r from-background/60 via-transparent to-background/60" />
+                {/* Base */}
+                <div className="absolute inset-0 bg-background" />
 
-                {/* Background image - using a gradient placeholder */}
-                <div
-                    className="h-full w-full bg-cover bg-center bg-no-repeat"
-                    style={{
-                        backgroundImage: `linear-gradient(135deg, rgb(var(--accent) / 0.3), rgb(var(--background-secondary)))`,
-                    }}
-                />
+                {/* Golden Gradient Orbs - Creates the premium atmosphere */}
+                <div className="absolute -top-[20%] -right-[10%] h-[80vh] w-[80vh] rounded-full bg-accent/15 blur-[120px] mix-blend-screen" />
+                <div className="absolute -bottom-[20%] -left-[10%] h-[60vh] w-[60vh] rounded-full bg-accent/10 blur-[100px] mix-blend-screen" />
+                <div className="absolute top-1/2 left-1/2 h-[50vh] w-[100vw] -translate-x-1/2 -translate-y-1/2 bg-accent/5 blur-[80px]" />
+
+                {/* Vignette Overlay for Focus */}
+                <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-transparent to-background" />
+                <div className="absolute inset-0 bg-gradient-to-r from-background/50 via-transparent to-background/50" />
             </motion.div>
 
             {/* Content */}

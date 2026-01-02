@@ -214,14 +214,13 @@ export default function PrivacyPage() {
                                         <div className="mt-4 rounded-lg border border-border bg-card p-6">
                                             <p className="font-medium">Sindhu Studio</p>
                                             <p className="text-foreground-muted">
-                                                Email: privacy@sindhustudio.com
+                                                Email: sindhustudiorohtak@gmail.com
                                             </p>
                                             <p className="text-foreground-muted">
-                                                Phone: +91 98765 43210
+                                                Phone: +91 9416370132
                                             </p>
                                             <p className="text-foreground-muted">
-                                                Address: 123 Creative Lane, Photography District, Mumbai
-                                                400001
+                                                Address: Shop no. 17, Sindhu Digital Studio, Delhi Road, opp. Balmev plaza, Dev Colony, Rohtak, Haryana, India
                                             </p>
                                         </div>
                                     </section>

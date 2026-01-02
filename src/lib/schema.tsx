@@ -39,23 +39,23 @@ export function getLocalBusinessSchema(): LocalBusinessSchema {
     return {
         "@context": "https://schema.org",
         "@type": "LocalBusiness",
-        "@id": "https://sindhustudio.com",
+        "@id": "https://sindhustudio.in",
         name: "Sindhu Studio",
         image: [
-            "https://sindhustudio.com/images/studio-1.jpg",
-            "https://sindhustudio.com/images/studio-2.jpg",
+            "https://sindhustudio.in/images/studio-1.jpg",
+            "https://sindhustudio.in/images/studio-2.jpg",
         ],
         description:
-            "Premium photography studio specializing in wedding, pre-wedding, maternity, and portrait photography in Mumbai, India.",
-        url: "https://sindhustudio.com",
-        telephone: "+91-98765-43210",
-        email: "hello@sindhustudio.com",
+            "Premium photography studio specializing in wedding, pre-wedding, maternity, and portrait photography in Rohtak, India.",
+        url: "https://sindhustudio.in",
+        telephone: "+91-94163-70132",
+        email: "sindhustudiorohtak@gmail.com",
         address: {
             "@type": "PostalAddress",
-            streetAddress: "123 Creative Lane, Photography District",
-            addressLocality: "Mumbai",
-            addressRegion: "Maharashtra",
-            postalCode: "400001",
+            streetAddress: "Shop no. 17, Sindhu Digital Studio, Delhi Road, opp. Balmev plaza, Dev Colony, Rohtak, Haryana, India",
+            addressLocality: "Rohtak",
+            addressRegion: "Haryana",
+            postalCode: "124001",
             addressCountry: "IN",
         },
         geo: {
@@ -110,7 +110,7 @@ export function getPhotographyServiceSchema(
         provider: {
             "@type": "LocalBusiness",
             name: "Sindhu Studio",
-            url: "https://sindhustudio.com",
+            url: "https://sindhustudio.in",
         },
         serviceType,
         areaServed: {
@@ -140,8 +140,8 @@ export function getOrganizationSchema(): OrganizationSchema {
         "@context": "https://schema.org",
         "@type": "Organization",
         name: "Sindhu Studio",
-        url: "https://sindhustudio.com",
-        logo: "https://sindhustudio.com/logo.png",
+        url: "https://sindhustudio.in",
+        logo: "https://sindhustudio.in/logo.png",
         description:
             "Premium photography studio capturing life's most precious moments with artistry and passion since 2009.",
         founder: {
@@ -152,8 +152,48 @@ export function getOrganizationSchema(): OrganizationSchema {
         sameAs: [
             "https://www.instagram.com/sindhustudio",
             "https://www.facebook.com/sindhustudio",
-            "https://www.youtube.com/sindhustudio",
+            "https://www.youtube.com/@sindhustudiorohtak",
         ],
+    };
+}
+
+export function getProductSchema() {
+    return {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "itemListElement": [
+            {
+                "@type": "Product",
+                "name": "Silver Package - Wedding Essential",
+                "description": "2 Day Coverage, Candid & Traditional Photography, High Resolution Digital Files.",
+                "brand": { "@type": "Brand", "name": "Sindhu Studio" },
+                "offers": { "@type": "Offer", "availability": "https://schema.org/InStock" }
+            },
+            {
+                "@type": "Product",
+                "name": "Gold Package - Cinematic Premium",
+                "description": "3 Day Coverage, Pre-wedding shoot, Drone coverage, Cinematic Film.",
+                "brand": { "@type": "Brand", "name": "Sindhu Studio" },
+                "offers": { "@type": "Offer", "availability": "https://schema.org/InStock" }
+            },
+            {
+                "@type": "Product",
+                "name": "Platinum Package - The Royal Edit",
+                "description": "Complete wedding coverage, luxury albums, same-day edit, dedicated senior team.",
+                "brand": { "@type": "Brand", "name": "Sindhu Studio" },
+                "offers": { "@type": "Offer", "availability": "https://schema.org/InStock" }
+            }
+        ]
+    };
+}
+
+export function getImageGallerySchema() {
+    return {
+        "@context": "https://schema.org",
+        "@type": "ImageGallery",
+        "name": "Sindhu Studio Best Wedding Photos",
+        "description": "A curated collection of our finest wedding, pre-wedding, and portrait photography from Rohtak and across India.",
+        "provider": { "@type": "LocalBusiness", "name": "Sindhu Studio" }
     };
 }
 

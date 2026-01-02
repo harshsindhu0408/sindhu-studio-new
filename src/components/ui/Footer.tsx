@@ -34,9 +34,9 @@ const footerLinks = {
 };
 
 const contactInfo = {
-    email: "hello@sindhustudio.com",
-    phone: "+91 98765 43210",
-    address: "123 Creative Lane, Photography District, Mumbai 400001",
+    email: "sindhustudiorohtak@gmail.com",
+    phone: "+91 94163 70132",
+    address: "Shop no. 17, Sindhu Digital Studio, Delhi Road, opp. Balmev plaza, Dev Colony, Rohtak, Haryana, India",
 };
 
 export function Footer() {

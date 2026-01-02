@@ -1,149 +1,69 @@
 "use client";
 
 import { motion } from "framer-motion";
-import {
-    Aperture,
-    Zap,
-    Eye,
-    Film,
-    Sparkles,
-    Heart,
-} from "lucide-react";
-import { StaggerContainer, StaggerItem } from "@/components/ui/SectionWrapper";
+import { SectionWrapper, StaggerContainer, StaggerItem } from "@/components/ui/SectionWrapper";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
-interface Feature {
-    icon: React.ElementType;
-    title: string;
-    description: string;
-}
-
-const features: Feature[] = [
+const pillars = [
     {
-        icon: Aperture,
-        title: "Premium Equipment",
-        description:
-            "State-of-the-art cameras, lenses, and lighting for gallery-quality results in any condition.",
+        title: "Unmatched Artistry",
+        description: "We blend editorial fashion aesthetics with genuine emotional storytelling. Your photos will look like they belong in a magazine, yet feel undeniably 'you'."
     },
     {
-        icon: Eye,
-        title: "Candid Expertise",
-        description:
-            "We specialize in capturing authentic moments—the laughter, tears, and genuine emotions.",
+        title: "Cutting-Edge Quality",
+        description: "Equipped with industry-leading cameras, drones, and lighting, we ensure crystal-clear 4K films and high-resolution images in any environment, day or night."
     },
     {
-        icon: Zap,
-        title: "Fast Turnaround",
-        description:
-            "Sneak peeks within 48 hours, full gallery delivered in 2-3 weeks with premium editing.",
-    },
-    {
-        icon: Film,
-        title: "Cinematic Video",
-        description:
-            "Complement your photos with stunning 4K cinematography that tells your complete story.",
-    },
-    {
-        icon: Sparkles,
-        title: "Artistic Vision",
-        description:
-            "Our signature editing style creates timeless images with a distinctive, editorial feel.",
-    },
-    {
-        icon: Heart,
-        title: "Personal Touch",
-        description:
-            "We build relationships with our clients, ensuring comfort and trust throughout the journey.",
-    },
+        title: "World-Class Experience",
+        description: "More than photographers, we are your calm in the chaos. We guide you through the process with a smile, ensuring a seamless, stress-free, and joyful experience."
+    }
 ];
 
 export function SindhuEdge() {
     return (
-        <section className="section-padding">
+        <section className="section-padding bg-background text-foreground overflow-hidden">
             <div className="container-custom">
-                <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
-                    {/* Left Column - Content */}
-                    <div>
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                        >
-                            <p className="mb-4 text-sm font-medium uppercase tracking-[0.2em] text-accent">
-                                Why Choose Us
-                            </p>
-                            <h2 className="font-display text-4xl font-medium md:text-5xl">
-                                The <span className="italic text-accent">Sindhu</span> Edge
-                            </h2>
-                            <p className="mt-6 text-foreground-muted">
-                                What sets us apart isn&apos;t just our equipment or experience—it&apos;s
-                                our unwavering commitment to excellence and the personal
-                                connection we build with every client.
-                            </p>
-                        </motion.div>
+                <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+                    {/* Left Column: Sticky Header */}
+                    <SectionWrapper className="lg:sticky lg:top-32 h-fit mb-12 lg:mb-0">
+                        <p className="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-accent">
+                            Why Choose Sindhu Studio
+                        </p>
+                        <h2 className="font-display text-5xl font-medium md:text-7xl leading-[0.9]">
+                            The Sindhu <br />
+                            <span className="text-accent italic">Difference</span>
+                        </h2>
+                        <p className="mt-8 text-xl leading-relaxed text-foreground-muted max-w-md">
+                            Defining the standard of premium photography in Rohtak. We don&apos;t just capture moments; we craft legacy.
+                        </p>
+                        <div className="mt-10">
+                            <Link href="/contact" className="btn btn-primary inline-flex items-center gap-2">
+                                Start Your Journey <ArrowRight className="w-4 h-4" />
+                            </Link>
+                        </div>
+                    </SectionWrapper>
 
-                        {/* Features Grid */}
-                        <StaggerContainer className="mt-10 grid gap-6 sm:grid-cols-2" staggerDelay={0.1}>
-                            {features.slice(0, 4).map((feature) => (
-                                <StaggerItem key={feature.title}>
-                                    <div className="group">
-                                        <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-lg border border-border bg-background-secondary transition-all duration-300 group-hover:border-accent group-hover:bg-accent group-hover:text-accent-foreground">
-                                            <feature.icon className="h-5 w-5" />
-                                        </div>
-                                        <h3 className="font-display text-lg font-medium">
-                                            {feature.title}
-                                        </h3>
-                                        <p className="mt-1 text-sm text-foreground-muted">
-                                            {feature.description}
-                                        </p>
-                                    </div>
-                                </StaggerItem>
-                            ))}
-                        </StaggerContainer>
-                    </div>
-
-                    {/* Right Column - Featured Image + Additional Features */}
-                    <div className="space-y-8">
-                        {/* Image placeholder */}
-                        <motion.div
-                            className="relative aspect-[4/3] overflow-hidden rounded-lg"
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.8 }}
-                            viewport={{ once: true }}
-                        >
-                            <div className="h-full w-full bg-gradient-to-br from-accent/30 via-background-secondary to-accent/10" />
-
-                            {/* Floating badge */}
-                            <motion.div
-                                className="absolute bottom-6 left-6 rounded-full bg-accent px-6 py-2 text-sm font-medium text-accent-foreground"
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.4 }}
-                                viewport={{ once: true }}
-                            >
-                                15+ Years of Excellence
-                            </motion.div>
-                        </motion.div>
-
-                        {/* Additional features */}
-                        <StaggerContainer className="grid gap-6 sm:grid-cols-2" staggerDelay={0.1}>
-                            {features.slice(4).map((feature) => (
-                                <StaggerItem key={feature.title}>
-                                    <div className="group">
-                                        <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-lg border border-border bg-background-secondary transition-all duration-300 group-hover:border-accent group-hover:bg-accent group-hover:text-accent-foreground">
-                                            <feature.icon className="h-5 w-5" />
-                                        </div>
-                                        <h3 className="font-display text-lg font-medium">
-                                            {feature.title}
-                                        </h3>
-                                        <p className="mt-1 text-sm text-foreground-muted">
-                                            {feature.description}
-                                        </p>
-                                    </div>
-                                </StaggerItem>
-                            ))}
-                        </StaggerContainer>
-                    </div>
+                    {/* Right Column: Editorial List */}
+                    <StaggerContainer className="space-y-0" staggerDelay={0.15}>
+                        {pillars.map((pillar, index) => (
+                            <StaggerItem key={index} className="group cursor-pointer relative border-b border-border/40 py-12 first:pt-0 last:border-0 transition-colors duration-500 hover:border-accent/50">
+                                <div className="absolute left-0 top-12 md:top-14 transition-transform duration-500 group-hover:-translate-x-2">
+                                    <span className="font-display text-4xl md:text-5xl text-accent/20 group-hover:text-accent transition-colors duration-500">
+                                        0{index + 1}
+                                    </span>
+                                </div>
+                                <div className="pl-16 md:pl-24">
+                                    <h3 className="font-display text-2xl md:text-4xl font-medium mb-4 group-hover:text-accent transition-colors duration-300">
+                                        {pillar.title}
+                                    </h3>
+                                    <p className="text-lg text-foreground-muted leading-relaxed group-hover:text-foreground transition-colors duration-300">
+                                        {pillar.description}
+                                    </p>
+                                </div>
+                            </StaggerItem>
+                        ))}
+                    </StaggerContainer>
                 </div>
             </div>
         </section>

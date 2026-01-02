@@ -41,7 +41,7 @@ const team: TeamMember[] = [
 
 const milestones = [
     { year: "2000", title: "Founded", description: "Started with a passion and a single camera" },
-    { year: "2004", title: "Studio Launch", description: "Opened our flagship studio in Mumbai" },
+    { year: "2004", title: "Studio Launch", description: "Opened our flagship studio in Rohtak" },
     { year: "2020", title: "500+ Weddings", description: "Celebrated covering our 500th wedding" },
     { year: "2024", title: "National Recognition", description: "Named among India's Top 10 Photography Studios" },
 ];
@@ -119,7 +119,7 @@ export default function AboutPage() {
                                     </p>
                                     <p>
                                         Founded in 2000 by Krishan Sindhu, what started as a
-                                        one-person passion project has grown into one of Mumbai&apos;s
+                                        one-person passion project has grown into one of Rohtak&apos;s
                                         most sought-after photography studios. But some things
                                         haven&apos;t changed—our commitment to excellence, our personal
                                         approach, and our genuine love for what we do.

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
+import { JsonLd, getImageGallerySchema } from "@/lib/schema";
 
 // --- Types & Data ---
 
@@ -56,6 +57,7 @@ const portfolioItems = generatePortfolioData(52); // 50+ images
 export default function PortfolioPage() {
     return (
         <div className="min-h-screen bg-background pb-20 pt-24 text-foreground">
+            <JsonLd data={getImageGallerySchema()} />
             {/* Header */}
             <header className="container-custom mb-16 text-center">
                 <div className="mx-auto max-w-2xl">

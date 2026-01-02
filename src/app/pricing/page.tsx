@@ -2,6 +2,7 @@
 
 import { Check, X, Phone, Mail, MapPin } from "lucide-react";
 import Link from "next/link";
+import { JsonLd, getProductSchema } from "@/lib/schema";
 
 interface Package {
     name: string;
@@ -155,6 +156,7 @@ const packages: Package[] = [
 export default function PricingPage() {
     return (
         <div className="min-h-screen bg-background pt-24 pb-20">
+            <JsonLd data={getProductSchema()} />
             {/* Header */}
             <header className="container-custom mb-16 text-center">
                 <p className="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-accent">

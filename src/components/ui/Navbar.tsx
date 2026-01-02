@@ -136,7 +136,7 @@ export function Navbar() {
                     <div className="flex items-center gap-4 md:hidden">
                         <button
                             onClick={toggleTheme}
-                            className="flex h-10 w-10 items-center justify-center"
+                            className="flex h-10 w-10 items-center justify-center text-foreground transition-colors hover:text-accent"
                             aria-label="Toggle theme"
                         >
                             {theme === "dark" ? (
@@ -147,7 +147,7 @@ export function Navbar() {
                         </button>
                         <button
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                            className="relative z-50 flex h-10 w-10 items-center justify-center"
+                            className="relative z-50 flex h-10 w-10 items-center justify-center text-foreground transition-colors hover:text-accent"
                             aria-label="Toggle menu"
                         >
                             <AnimatePresence mode="wait">
@@ -180,42 +180,30 @@ export function Navbar() {
             <AnimatePresence>
                 {isMobileMenuOpen && (
                     <motion.div
-                        className="fixed inset-0 z-40 flex flex-col items-center justify-center bg-background md:hidden"
-                        initial={{ clipPath: "circle(0% at calc(100% - 2.5rem) 2.5rem)" }}
-                        animate={{ clipPath: "circle(150% at calc(100% - 2.5rem) 2.5rem)" }}
-                        exit={{ clipPath: "circle(0% at calc(100% - 2.5rem) 2.5rem)" }}
-                        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                        className="fixed inset-0 z-40 flex flex-col items-center justify-center bg-background/95 backdrop-blur-lg md:hidden"
+                        initial={{ opacity: 0, x: "100%" }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: "100%" }}
+                        transition={{ type: "spring", damping: 25, stiffness: 200 }}
                     >
-                        <nav className="flex flex-col items-center gap-8">
-                            {navLinks.map((link, index) => (
-                                <motion.div
-                                    key={link.href}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: 0.1 + index * 0.1 }}
-                                >
-                                    <Link
-                                        href={link.href}
-                                        className="font-display text-3xl font-medium"
-                                        onClick={() => setIsMobileMenuOpen(false)}
-                                    >
-                                        {link.label}
-                                    </Link>
-                                </motion.div>
-                            ))}
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.5 }}
-                            >
+                        <nav className="flex flex-col items-center gap-8 text-center">
+                            {navLinks.map((link) => (
                                 <Link
-                                    href="/contact"
-                                    className="btn btn-primary mt-4"
+                                    key={link.href}
+                                    href={link.href}
+                                    className="block font-display text-4xl font-medium text-foreground transition-colors hover:text-accent"
                                     onClick={() => setIsMobileMenuOpen(false)}
                                 >
-                                    Book Now
+                                    {link.label}
                                 </Link>
-                            </motion.div>
+                            ))}
+                            <Link
+                                href="/contact"
+                                className="btn btn-primary mt-6 text-xl px-8 py-3"
+                                onClick={() => setIsMobileMenuOpen(false)}
+                            >
+                                Book Now
+                            </Link>
                         </nav>
                     </motion.div>
                 )}
