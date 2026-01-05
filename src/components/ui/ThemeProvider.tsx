@@ -12,57 +12,61 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
+// Script to inject in head for instant theme application (prevents FOUC)
+export const themeScript = `
+(function() {
+  try {
+    var theme = localStorage.getItem('sindhu-theme');
+    if (!theme) {
+      theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  } catch (e) {
+    document.documentElement.classList.add('dark');
+  }
+})();
+`;
+
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-    const [theme, setThemeState] = useState<Theme>("dark");
-    const [mounted, setMounted] = useState(false);
-
-    // Handle initial theme from localStorage or system preference
-    useEffect(() => {
-        setMounted(true);
-
-        const storedTheme = localStorage.getItem("sindhu-theme") as Theme | null;
-
-        if (storedTheme) {
-            setThemeState(storedTheme);
-        } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-            setThemeState("dark");
-        } else {
-            setThemeState("light");
+    // Initialize with a function to read from DOM if available
+    const [theme, setThemeState] = useState<Theme>(() => {
+        if (typeof window !== "undefined") {
+            return document.documentElement.classList.contains("dark") ? "dark" : "light";
         }
+        return "dark";
+    });
+
+    // Sync state with actual DOM on mount (for SSR hydration)
+    useEffect(() => {
+        const isDark = document.documentElement.classList.contains("dark");
+        setThemeState(isDark ? "dark" : "light");
     }, []);
 
-    // Update document class and localStorage when theme changes
-    useEffect(() => {
-        if (!mounted) return;
-
+    // Update document class and localStorage when theme changes via user action
+    const updateTheme = (newTheme: Theme) => {
         const root = document.documentElement;
-
-        if (theme === "dark") {
+        if (newTheme === "dark") {
             root.classList.add("dark");
         } else {
             root.classList.remove("dark");
         }
-
-        localStorage.setItem("sindhu-theme", theme);
-    }, [theme, mounted]);
-
-    const toggleTheme = () => {
-        setThemeState((prev) => (prev === "dark" ? "light" : "dark"));
-    };
-
-    const setTheme = (newTheme: Theme) => {
+        localStorage.setItem("sindhu-theme", newTheme);
         setThemeState(newTheme);
     };
 
-    // Prevent flash of wrong theme
-    if (!mounted) {
-        return (
-            <div style={{ visibility: "hidden" }}>
-                {children}
-            </div>
-        );
-    }
+    const toggleTheme = () => {
+        updateTheme(theme === "dark" ? "light" : "dark");
+    };
 
+    const setTheme = (newTheme: Theme) => {
+        updateTheme(newTheme);
+    };
+
+    // No more visibility:hidden - the theme script handles FOUC prevention
     return (
         <ThemeContext.Provider value={{ theme, toggleTheme, setTheme }}>
             {children}

@@ -14,6 +14,17 @@ const nextConfig = {
             },
         ],
     },
+    // Performance optimizations
+    experimental: {
+        // Optimize CSS
+        optimizeCss: true,
+    },
+    // Enable compression
+    compress: true,
+    // Reduce powered by header
+    poweredByHeader: false,
 };
 
 module.exports = nextConfig;
+
+
