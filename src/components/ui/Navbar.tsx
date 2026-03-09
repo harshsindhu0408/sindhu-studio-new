@@ -11,6 +11,7 @@ const navLinks = [
     { href: "/", label: "Home" },
     { href: "/portfolio", label: "Portfolio" },
     { href: "/pricing", label: "Packages" },
+    { href: "/addons", label: "Add-ons" },
     { href: "/about", label: "About" },
     { href: "/contact", label: "Contact" },
 ];
@@ -60,7 +61,6 @@ export function Navbar() {
                     <Link
                         href="/"
                         className="group relative z-10"
-                        data-cursor="pointer"
                     >
                         <motion.div
                             className="flex items-center gap-2"
@@ -83,7 +83,6 @@ export function Navbar() {
                                 key={link.href}
                                 href={link.href}
                                 className="group relative py-2 text-sm font-medium uppercase tracking-widest text-foreground-muted transition-colors hover:text-foreground"
-                                data-cursor="pointer"
                             >
                                 {link.label}
                                 <span className="absolute bottom-0 left-0 h-px w-0 bg-accent transition-all duration-300 group-hover:w-full" />
@@ -93,8 +92,7 @@ export function Navbar() {
                         {/* Theme Toggle */}
                         <button
                             onClick={toggleTheme}
-                            className="group relative flex h-10 w-10 items-center justify-center rounded-full border border-border transition-all duration-300 hover:border-accent hover:bg-accent/10"
-                            data-cursor="pointer"
+                            className="group cursor-pointer relative flex h-10 w-10 items-center justify-center rounded-full border border-border transition-all duration-300 hover:border-accent hover:bg-accent/10"
                             aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
                         >
                             <AnimatePresence mode="wait">
@@ -126,7 +124,6 @@ export function Navbar() {
                         <Link
                             href="/contact"
                             className="btn btn-primary"
-                            data-cursor="pointer"
                         >
                             Book Now
                         </Link>
@@ -136,7 +133,7 @@ export function Navbar() {
                     <div className="flex items-center gap-4 md:hidden">
                         <button
                             onClick={toggleTheme}
-                            className="flex h-10 w-10 items-center justify-center text-foreground transition-colors hover:text-accent"
+                            className="flex cursor-pointer h-10 w-10 items-center justify-center text-foreground transition-colors hover:text-accent"
                             aria-label="Toggle theme"
                         >
                             {theme === "dark" ? (

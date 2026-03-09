@@ -97,7 +97,7 @@ export function ServiceGrid() {
                 <StaggerContainer className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                     {services.map((service) => (
                         <StaggerItem key={service.title}>
-                            <Link href={service.href} data-cursor="pointer" data-cursor-text="View">
+                            <Link href={service.href}>
                                 <motion.div
                                     className="group relative h-full overflow-hidden rounded-lg border border-border bg-card p-8 transition-all duration-500 hover:border-accent hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:hover:shadow-[0_8px_30px_rgba(255,215,0,0.05)]"
                                     whileHover={{ y: -6 }}

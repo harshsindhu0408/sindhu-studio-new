@@ -52,7 +52,7 @@ export function getLocalBusinessSchema(): LocalBusinessSchema {
         email: "sindhustudiorohtak@gmail.com",
         address: {
             "@type": "PostalAddress",
-            streetAddress: "Shop no. 19, Sindhu Digital Studio, Delhi Road, opp. Balmev plaza, Dev Colony, Rohtak, Haryana, India",
+            streetAddress: "Shop no. 17, Sindhu Digital Studio, Delhi Road, opp. Balmev plaza, Dev Colony, Rohtak, Haryana, India",
             addressLocality: "Rohtak",
             addressRegion: "Haryana",
             postalCode: "124001",

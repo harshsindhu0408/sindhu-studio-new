@@ -99,10 +99,10 @@ export function Hero() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 1 }}
                 >
-                    <Link href="/portfolio" className="btn btn-primary" data-cursor="pointer">
+                    <Link href="/portfolio" className="btn btn-primary">
                         View Portfolio
                     </Link>
-                    <Link href="/contact" className="btn btn-outline" data-cursor="pointer">
+                    <Link href="/contact" className="btn btn-outline">
                         Book a Session
                     </Link>
                 </motion.div>

@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { SectionWrapper } from "@/components/ui/SectionWrapper";
+import Image from "next/image";
 
 export function Philosophy() {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -38,15 +39,20 @@ export function Philosophy() {
 
                             {/* Image container */}
                             <motion.div
-                                className="h-full w-full overflow-hidden bg-background-secondary"
+                                className="h-full w-full overflow-hidden bg-background-secondary relative"
                                 style={{ y: imageY }}
                             >
-                                <div
-                                    className="h-[120%] w-full bg-cover bg-center"
-                                    style={{
-                                        backgroundImage: `linear-gradient(45deg, rgb(var(--accent) / 0.2), rgb(var(--background-secondary)))`,
-                                    }}
-                                />
+                                <div className="h-[120%] w-full relative">
+                                    <Image
+                                        src="/DSC_4597.JPG"
+                                        alt="Sindhu Studio Philosophy"
+                                        fill
+                                        sizes="(max-width: 1024px) 100vw, 50vw"
+                                        className="object-cover"
+                                        quality={85}
+                                    />
+                                    <div className="absolute inset-0 bg-background/10 mix-blend-overlay" />
+                                </div>
                             </motion.div>
                         </div>
                     </SectionWrapper>

@@ -52,7 +52,6 @@ function FAQAccordion({ item, isOpen, onClick }: { item: FAQItem; isOpen: boolea
             <button
                 className="flex w-full items-center justify-between py-6 text-left"
                 onClick={onClick}
-                data-cursor="pointer"
             >
                 <span className="pr-4 font-display text-lg font-medium md:text-xl">
                     {item.question}
@@ -84,7 +83,7 @@ function FAQAccordion({ item, isOpen, onClick }: { item: FAQItem; isOpen: boolea
                     </motion.div>
                 )}
             </AnimatePresence>
-        </motion.div>
+        </motion.div >
     );
 }
 

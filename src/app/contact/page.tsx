@@ -37,11 +37,23 @@ const services = [
     "Diamond Package (1.2L)",
     "Prime Package (1.5L)",
     "Exclusive Package (2L)",
+    // Add-ons
+    "Drone Shoot Add-on",
+    "LED Screen Add-on",
+    "Ring Ceremony Add-on",
+    "Candid Photography Add-on",
+    "Cinematic Videography Add-on",
+    "Live Stream Add-on",
+    "Pre-Wedding Shoot Add-on",
+    "Baby Shoot Programme",
+    "Birthday Programme",
+    "Kua Poojan",
 ];
 
 function ContactForm() {
     const searchParams = useSearchParams();
     const packageParam = searchParams.get("package");
+    const addonParam = searchParams.get("addon");
 
     const [formData, setFormData] = useState<FormData>({
         name: "",
@@ -52,16 +64,20 @@ function ContactForm() {
         message: "",
     });
 
-    // Pre-fill service if package is in URL
+    // Pre-fill service if package or addon is in URL
     useEffect(() => {
-        if (packageParam) {
+        const queryParam = packageParam || addonParam;
+        if (queryParam) {
             // Find matching service or just set it
-            const matchingService = services.find(s => s.toLowerCase().includes(packageParam.toLowerCase()));
+            const matchingService = services.find(s => s.toLowerCase().includes(queryParam.toLowerCase()));
             if (matchingService) {
                 setFormData(prev => ({ ...prev, service: matchingService }));
+            } else {
+                // If no exact match but we have a query, format it nicely
+                setFormData(prev => ({ ...prev, message: `I am interested in adding the following to my package: ${queryParam}` }));
             }
         }
-    }, [packageParam]);
+    }, [packageParam, addonParam]);
 
     const [errors, setErrors] = useState<FormErrors>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -74,15 +90,11 @@ function ContactForm() {
             newErrors.name = "Name is required";
         }
 
-        if (!formData.email.trim()) {
-            newErrors.email = "Email is required";
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+        if (formData.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
             newErrors.email = "Please enter a valid email";
         }
 
-        if (!formData.phone.trim()) {
-            newErrors.phone = "Phone number is required";
-        } else if (!/^[\d\s+()-]{10,}$/.test(formData.phone)) {
+        if (formData.phone.trim() && !/^[\d\s+()-]{10,}$/.test(formData.phone)) {
             newErrors.phone = "Please enter a valid phone number";
         }
 
@@ -101,8 +113,26 @@ function ContactForm() {
 
         setIsSubmitting(true);
 
-        // Simulate API call
-        await new Promise((resolve) => setTimeout(resolve, 1500));
+        // Construct a professional WhatsApp message from the client's perspective
+        const whatsappNumber = "919416370132";
+        const messageHeader = `Hello Sindhu Studio, I would like to inquire about your photography services for my upcoming event. Here are my details:`;
+        const messageBody =
+            `\n\n*Name:* ${formData.name}` +
+            (formData.phone ? `\n*Phone:* ${formData.phone}` : "") +
+            (formData.email ? `\n*Email:* ${formData.email}` : "") +
+            (formData.service ? `\n*Service:* ${formData.service}` : "") +
+            (formData.date ? `\n*Preferred Date:* ${formData.date}` : "") +
+            `\n\n*Message:* ${formData.message}` +
+            `\n\nI am looking forward to hearing from you. Thank you!`;
+
+        const fullMessage = messageHeader + messageBody;
+        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(fullMessage)}`;
+
+        // Open WhatsApp
+        window.open(whatsappUrl, "_blank");
+
+        // Simulate successful submission for the UI
+        await new Promise((resolve) => setTimeout(resolve, 1000));
 
         setIsSubmitting(false);
         setIsSubmitted(true);
@@ -137,7 +167,7 @@ function ContactForm() {
                 </motion.div>
             ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
-                    {/* Name & Email */}
+                    {/* Name & Event Date */}
                     <div className="grid gap-6 md:grid-cols-2">
                         <div className="group relative">
                             <input
@@ -164,31 +194,28 @@ function ContactForm() {
                         </div>
 
                         <div className="group relative">
-                            <input
-                                type="email"
-                                name="email"
-                                id="email"
-                                value={formData.email}
-                                onChange={handleChange}
-                                className={`peer w-full border-b bg-transparent py-3 text-foreground outline-none transition-colors ${errors.email
-                                    ? "border-error"
-                                    : "border-border focus:border-accent"
-                                    }`}
-                                placeholder=" "
+                            <DatePicker
+                                selected={formData.date ? new Date(formData.date) : undefined}
+                                onSelect={(date) => {
+                                    if (date && !isNaN(date.getTime())) {
+                                        // Use format YYYY-MM-DD that maps correctly to local time
+                                        const offset = date.getTimezoneOffset()
+                                        const localDate = new Date(date.getTime() - (offset * 60 * 1000))
+                                        const dateStr = localDate.toISOString().split('T')[0]
+                                        setFormData(prev => ({ ...prev, date: dateStr }));
+                                    }
+                                }}
+                                placeholder="Select Event Date"
                             />
                             <label
-                                htmlFor="email"
-                                className="pointer-events-none absolute left-0 top-3 text-foreground-muted transition-all peer-focus:-top-3 peer-focus:text-xs peer-focus:text-accent peer-[:not(:placeholder-shown)]:-top-3 peer-[:not(:placeholder-shown)]:text-xs"
+                                className="pointer-events-none absolute -top-3 left-0 text-xs text-foreground-muted block"
                             >
-                                Email Address *
+                                Event Date (Optional)
                             </label>
-                            {errors.email && (
-                                <p className="mt-1 text-xs text-error">{errors.email}</p>
-                            )}
                         </div>
                     </div>
 
-                    {/* Phone & Service */}
+                    {/* Phone & Email */}
                     <div className="grid gap-6 md:grid-cols-2">
                         <div className="group relative">
                             <input
@@ -207,7 +234,7 @@ function ContactForm() {
                                 htmlFor="phone"
                                 className="pointer-events-none absolute left-0 top-3 text-foreground-muted transition-all peer-focus:-top-3 peer-focus:text-xs peer-focus:text-accent peer-[:not(:placeholder-shown)]:-top-3 peer-[:not(:placeholder-shown)]:text-xs"
                             >
-                                Phone Number *
+                                Phone Number (Optional)
                             </label>
                             {errors.phone && (
                                 <p className="mt-1 text-xs text-error">{errors.phone}</p>
@@ -215,44 +242,49 @@ function ContactForm() {
                         </div>
 
                         <div className="group relative">
-                            <select
-                                name="service"
-                                id="service"
-                                value={formData.service}
+                            <input
+                                type="email"
+                                name="email"
+                                id="email"
+                                value={formData.email}
                                 onChange={handleChange}
-                                className="w-full border-b border-border bg-transparent py-3 text-foreground outline-none transition-colors focus:border-accent [&>option]:bg-background [&>option]:text-foreground"
+                                className={`peer w-full border-b bg-transparent py-3 text-foreground outline-none transition-colors ${errors.email
+                                    ? "border-error"
+                                    : "border-border focus:border-accent"
+                                    }`}
+                                placeholder=" "
+                            />
+                            <label
+                                htmlFor="email"
+                                className="pointer-events-none absolute left-0 top-3 text-foreground-muted transition-all peer-focus:-top-3 peer-focus:text-xs peer-focus:text-accent peer-[:not(:placeholder-shown)]:-top-3 peer-[:not(:placeholder-shown)]:text-xs"
                             >
-                                <option value="">Select Service / Package</option>
-                                {services.map((service) => (
-                                    <option key={service} value={service}>
-                                        {service}
-                                    </option>
-                                ))}
-                            </select>
+                                Email Address (Optional)
+                            </label>
+                            {errors.email && (
+                                <p className="mt-1 text-xs text-error">{errors.email}</p>
+                            )}
                         </div>
                     </div>
 
-                    {/* Event Date */}
+                    {/* Service Selection */}
                     <div className="group relative">
-                        <DatePicker
-                            selected={formData.date ? new Date(formData.date) : undefined}
-                            onSelect={(date) => {
-                                if (date && !isNaN(date.getTime())) {
-                                    // Use format YYYY-MM-DD that maps correctly to local time
-                                    const offset = date.getTimezoneOffset()
-                                    const localDate = new Date(date.getTime() - (offset * 60 * 1000))
-                                    const dateStr = localDate.toISOString().split('T')[0]
-                                    setFormData(prev => ({ ...prev, date: dateStr }));
-                                }
-                            }}
-                            placeholder="Select Event Date"
-                        />
-                        <label
-                            className="pointer-events-none absolute -top-3 left-0 text-xs text-foreground-muted block"
+                        <select
+                            name="service"
+                            id="service"
+                            value={formData.service}
+                            onChange={handleChange}
+                            className="w-full border-b border-border bg-transparent py-3 text-foreground outline-none transition-colors focus:border-accent [&>option]:bg-background [&>option]:text-foreground"
                         >
-                            Event Date (if applicable)
-                        </label>
+                            <option value="">Select Service / Package (Optional)</option>
+                            {services.map((service) => (
+                                <option key={service} value={service}>
+                                    {service}
+                                </option>
+                            ))}
+                        </select>
                     </div>
+
+
 
                     {/* Message */}
                     <div className="group relative">
@@ -283,8 +315,7 @@ function ContactForm() {
                     <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="btn btn-primary w-full disabled:opacity-50"
-                        data-cursor="pointer"
+                        className="btn cursor-pointer btn-primary w-full disabled:opacity-50"
                     >
                         {isSubmitting ? (
                             <span className="flex items-center gap-2">
@@ -382,10 +413,10 @@ export default function ContactPage() {
                                                     +91 79888 04223
                                                 </a>
                                                 <a
-                                                    href="tel:+918950208120"
+                                                    href="tel:+918950200913"
                                                     className="transition-colors hover:text-foreground"
                                                 >
-                                                    +91 89502 08120
+                                                    +91 89503 00913
                                                 </a>
                                                 <a
                                                     href="tel:+919817554363"
@@ -404,7 +435,7 @@ export default function ContactPage() {
                                         <div>
                                             <p className="font-medium">Studio</p>
                                             <p className="text-sm text-foreground-muted">
-                                                Shop no. 19, Sindhu DigitalStudio,
+                                                Shop no. 17, Sindhu DigitalStudio,
                                                 <br />
                                                 Delhi Road, opp. Balmev Plaza,
                                                 <br />

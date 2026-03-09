@@ -35,9 +35,6 @@
 
   /* Shadows */
   --shadow-color: 0 0 0;
-
-  /* Cursor */
-  --cursor-size: 20px;
 }
 
 /* ============================================
@@ -85,8 +82,8 @@
   --color-error: rgb(var(--error));
 
   /* Typography */
-  --font-display: 'Playfair Display', Georgia, serif;
-  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-sans: "Inter", system-ui, sans-serif;
 
   /* Spacing */
   --section-padding: clamp(4rem, 10vw, 8rem);
@@ -106,9 +103,6 @@
 /* ============================================
    BASE STYLES
    ============================================ */
-html {
-  /* Removed scroll-behavior: smooth - causes jank with animations */
-}
 
 body {
   background: rgb(var(--background));
@@ -120,11 +114,6 @@ body {
   overflow-x: hidden;
   /* GPU acceleration */
   transform: translateZ(0);
-}
-
-/* Hide default cursor when custom cursor is active */
-.has-custom-cursor * {
-  cursor: none !important;
 }
 
 /* ============================================
@@ -205,7 +194,11 @@ h6 {
 
 /* Text gradient */
 .text-gradient {
-  background: linear-gradient(135deg, rgb(var(--accent)), rgb(var(--accent-light)));
+  background: linear-gradient(
+    135deg,
+    rgb(var(--accent)),
+    rgb(var(--accent-light))
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -236,7 +229,9 @@ h6 {
 .fade-up {
   opacity: 0;
   transform: translateY(40px);
-  transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
+  transition:
+    opacity 0.8s var(--ease-out-expo),
+    transform 0.8s var(--ease-out-expo);
 }
 
 .fade-up.visible {
@@ -245,36 +240,36 @@ h6 {
 }
 
 /* Stagger children animations */
-.stagger-children>* {
+.stagger-children > * {
   opacity: 0;
   transform: translateY(20px);
 }
 
-.stagger-children.visible>*:nth-child(1) {
+.stagger-children.visible > *:nth-child(1) {
   transition-delay: 0ms;
   opacity: 1;
   transform: translateY(0);
 }
 
-.stagger-children.visible>*:nth-child(2) {
+.stagger-children.visible > *:nth-child(2) {
   transition-delay: 100ms;
   opacity: 1;
   transform: translateY(0);
 }
 
-.stagger-children.visible>*:nth-child(3) {
+.stagger-children.visible > *:nth-child(3) {
   transition-delay: 200ms;
   opacity: 1;
   transform: translateY(0);
 }
 
-.stagger-children.visible>*:nth-child(4) {
+.stagger-children.visible > *:nth-child(4) {
   transition-delay: 300ms;
   opacity: 1;
   transform: translateY(0);
 }
 
-.stagger-children.visible>*:nth-child(5) {
+.stagger-children.visible > *:nth-child(5) {
   transition-delay: 400ms;
   opacity: 1;
   transform: translateY(0);
@@ -286,7 +281,7 @@ h6 {
 }
 
 .line-accent::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -8px;
   left: 0;
@@ -297,7 +292,9 @@ h6 {
 
 /* Hover lift effect */
 .hover-lift {
-  transition: transform 0.4s var(--ease-out-expo), box-shadow 0.4s var(--ease-out-expo);
+  transition:
+    transform 0.4s var(--ease-out-expo),
+    box-shadow 0.4s var(--ease-out-expo);
 }
 
 .hover-lift:hover {
@@ -346,7 +343,6 @@ h6 {
    ANIMATIONS KEYFRAMES
    ============================================ */
 @keyframes float {
-
   0%,
   100% {
     transform: translateY(0);
@@ -358,7 +354,6 @@ h6 {
 }
 
 @keyframes pulse-soft {
-
   0%,
   100% {
     opacity: 1;

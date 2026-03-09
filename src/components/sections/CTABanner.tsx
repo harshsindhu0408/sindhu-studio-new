@@ -82,7 +82,6 @@ export function CTABanner() {
                         <Link
                             href="/contact"
                             className="group inline-flex items-center gap-2 rounded-sm bg-white px-8 py-4 text-sm font-medium uppercase tracking-wider text-accent transition-all duration-300 hover:bg-white/90 hover:shadow-lg"
-                            data-cursor="pointer"
                         >
                             Book Your Date
                             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -90,7 +89,6 @@ export function CTABanner() {
                         <Link
                             href="/portfolio"
                             className="inline-flex items-center gap-2 rounded-sm border border-white/30 bg-transparent px-8 py-4 text-sm font-medium uppercase tracking-wider text-white transition-all duration-300 hover:bg-white/10"
-                            data-cursor="pointer"
                         >
                             View Portfolio
                         </Link>

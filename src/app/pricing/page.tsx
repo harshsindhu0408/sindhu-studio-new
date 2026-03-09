@@ -1,8 +1,10 @@
 "use client";
 
-import { Check, X, Phone, Mail, MapPin } from "lucide-react";
+import { Check, X, Phone, Mail, MapPin, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { JsonLd, getProductSchema } from "@/lib/schema";
+import { addOns, getDiscountPercentage, AddOn } from "@/lib/addons";
+import { useState } from "react";
 
 interface Package {
     name: string;
@@ -12,18 +14,21 @@ interface Package {
     excluded: string[];
 }
 
+
+
 const packages: Package[] = [
     {
         name: "Silver",
-        price: 50000,
+        price: 49999,
         included: [
             "Full HD Photos (RAW Data)",
             "Full HD Videos (Master + Edited Copy)",
             "50-Sheet 14 x 40 Album with Leather Cover",
             "Video Highlights",
             "64GB Pendrive",
-            "LED Screen (8x12) at Venue",
+            "2 LED Screens (43 inches) at Venue",
             "Coverage for 2-Day Programme",
+            "1 16X20(inches) Wedding photo frame hard copy"
         ],
         excluded: [
             "Candid Photography",
@@ -31,38 +36,39 @@ const packages: Package[] = [
             "Drone Shoot",
             "Video Teaser",
             "Ring Ceremony Function",
-            "Live Streaming of Events",
             "Pre-Wedding Shoot",
             "Custom Photo Album Design",
+            "LED Screen (8x12) at Venue",
         ],
     },
     {
         name: "Gold",
-        price: 70000,
+        price: 69999,
         highlight: true,
         included: [
             "Full HD Photos (RAW Data)",
             "Full HD Videos (Master + Edited Copy)",
-            "80-Sheet 14 x 40 Album with Leather Cover",
-            "Drone Shoot",
+            "60-Sheet 14 x 40 Album with Leather Cover",
             "64GB Pendrive",
-            "LED Screen (8x12) at Venue",
+            "2 LED Screens (43 inches) at Venue",
             "Video Teaser",
             "Video Highlights",
             "Candid Photography",
             "Custom Photo Album Design",
+            "1 16X24(inches) Wedding photo frame hard copy"
         ],
         excluded: [
             "Cinematic Video for Couples",
             "Ring Ceremony Function",
             "Pre-Wedding Shoot",
             "Extra Cameramen",
-            "Live Streaming of Events",
+            "Drone Shoot",
+            "LED Screen (8x12) at Venue",
         ],
     },
     {
         name: "Platinum",
-        price: 100000,
+        price: 99999,
         included: [
             "Full HD Photos (RAW Data)",
             "Full HD Videos (Master + Edited Copy)",
@@ -72,67 +78,71 @@ const packages: Package[] = [
             "LED Screen (8x12) at Venue",
             "Video Teaser",
             "Video Highlights",
-            "Cinematic Videography (Whole Event)",
-            "Candid Photography (Whole Event)",
+            "Cinematic Videography (Marriage main event Only)",
+            "Candid Photography (Marriage Only)",
             "Custom Photo Album Design",
+            "2 LED Screens (43 inches) at Venue",
+            "1 20X30(inches) Wedding photo frame hard copy"
         ],
         excluded: [
             "Ring Ceremony Function",
             "Pre-Wedding Shoot",
-            "Live Streaming of Events",
             "Additional Pendrive Copies",
         ],
     },
     {
         name: "Diamond",
-        price: 120000,
+        price: 124999,
         included: [
             "Full HD Photos (RAW Data)",
             "Full HD Videos (Master + Edited Copy)",
-            "100-Sheet 14 x 40 Album with Leather Cover",
+            "2 (50 sheet each) 14 x 40 Album with Leather Cover",
             "Drone Shoot",
             "64GB Pendrive",
             "LED Screen (8x12) at Venue",
             "Video Teaser",
             "Video Highlights",
-            "Cinematic Videography",
-            "Candid Photography (Marriage Only)",
+            "Cinematic Videography (Marriage main event Only)",
+            "Candid Photography (Marriage main event Only)",
             "Ring Ceremony Programme",
             "Custom Photo Album Design",
             "Extra Cameramen",
             "Backup Copies After 6 Months",
+            "2 LED Screens (43 inches) at Venue",
+            "1 20X30(inches) and 1 16X20(inches) Wedding photo frame hard copy"
         ],
         excluded: [
             "Pre-Wedding Shoot",
-            "Live Streaming of Events",
             "Video cinematics at ring ceremony",
         ],
     },
     {
         name: "Prime",
-        price: 150000,
+        price: 149999,
         included: [
             "Full HD Photos (RAW Data)",
             "Full HD Videos (Master + Edited Copy)",
-            "100-Sheet 14 x 40 Album with Leather Cover",
+            "2 (50 sheet each) 14 x 40 Album with Leather Cover",
             "(Extra High-Quality album Paper)",
             "Drone Shoot",
             "64GB Pendrive",
             "LED Screen (8x12) at Venue",
             "Video Teaser",
             "Video Highlights",
-            "Cinematic Videography",
-            "Candid Photography",
+            "Cinematic Videography (Marriage main event Only)",
+            "Candid Photography (Marriage main event Only)",
             "Extra 2 Cameramen for Capturing More Moments",
-            "Ring Ceremony with Candid Photography and Cinematography",
+            "Ring Ceremony with Candid Photography",
             "Custom Photo Album Design",
             "Backup Copies After 6 Months",
+            "2 LED Screens (43 inches) at Venue",
+            "2 20X30(inches) Wedding photo frame hard copy"
         ],
-        excluded: ["Pre-Wedding Shoot", "Live Streaming of Events"],
+        excluded: ["Pre-Wedding Shoot"],
     },
     {
         name: "Exclusive",
-        price: 200000,
+        price: 199999,
         included: [
             "Full HD Photos (RAW Data)",
             "Full HD Videos (Master + Edited Copy)",
@@ -148,8 +158,11 @@ const packages: Package[] = [
             "Extra 2 Cameramen",
             "All Functions (Pre-Wedding, Ring Ceremony)",
             "Coverage for 3-Day Programme",
+            "Backup Copies After 6 Months",
+            "2 LED Screens (43 inches) at Venue",
+            "2 20X30(inches) Wedding photo frame Acrylic"
         ],
-        excluded: ["Live Streaming of Events"],
+        excluded: [""],
     },
 ];
 
@@ -234,6 +247,27 @@ export default function PricingPage() {
                 </div>
             </section>
 
+            {/* Add-ons Section */}
+            <section className="container-custom mt-24">
+                <div className="mb-12 text-center">
+                    <p className="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-accent">
+                        Customize
+                    </p>
+                    <h2 className="font-display text-4xl font-medium md:text-5xl">
+                        Available Add-ons
+                    </h2>
+                    <p className="mx-auto mt-6 max-w-2xl text-lg text-foreground-muted">
+                        Enhance your chosen package with these popular additions.
+                    </p>
+                </div>
+
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                    {addOns.map((addon) => (
+                        <AddOnCard key={addon.name} addon={addon} />
+                    ))}
+                </div>
+            </section>
+
             {/* Contact / Location Section */}
             <section className="mt-32 bg-background-secondary py-20">
                 <div className="container-custom">
@@ -251,7 +285,7 @@ export default function PricingPage() {
                                     <div>
                                         <p className="text-lg font-medium">Headquarters</p>
                                         <p className="mt-1 text-foreground-muted">
-                                            Shop no. 19, Delhi Road,<br />
+                                            Shop no. 17, Delhi Road,<br />
                                             Opp. Balmev Plaza, Dev Colony,<br />
                                             Rohtak, Haryana, India
                                         </p>
@@ -265,7 +299,7 @@ export default function PricingPage() {
                                         <div className="mt-1 flex flex-col gap-1 text-foreground-muted">
                                             <a href="tel:+919416370132" className="hover:text-foreground">+91 94163 70132</a>
                                             <a href="tel:+917988804223" className="hover:text-foreground">+91 79888 04223</a>
-                                            <a href="tel:+918950208120" className="hover:text-foreground">+91 89502 08120</a>
+                                            <a href="tel:+918950300913" className="hover:text-foreground">+91 89503 00913</a>
                                             <a href="tel:+919817554363" className="hover:text-foreground">+91 98175 54363</a>
                                         </div>
                                     </div>
@@ -304,6 +338,66 @@ export default function PricingPage() {
                     </div>
                 </div>
             </section>
+        </div>
+    );
+}
+
+function AddOnCard({ addon }: { addon: AddOn }) {
+    const [selectedOption, setSelectedOption] = useState(0);
+
+    const price = addon.options ? addon.options[selectedOption].price : addon.price;
+    const originalPrice = addon.options ? addon.options[selectedOption].originalPrice : addon.originalPrice;
+    const discount = getDiscountPercentage(originalPrice, price);
+    const bookingName = addon.options ? `${addon.options[selectedOption].label} ${addon.name}` : addon.name;
+
+    return (
+        <div
+            className="group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card p-6 transition-all hover:border-accent hover:shadow-md"
+        >
+            {originalPrice && (
+                <div className="absolute right-4 top-4 rounded-full bg-accent/10 px-2 py-1 text-xs font-bold text-accent">
+                    {discount}% OFF
+                </div>
+            )}
+            <div className="mb-4 flex-1">
+                <h4 className="font-display text-xl font-medium group-hover:text-accent transition-colors">{addon.name}</h4>
+                {addon.description && (
+                    <p className="mt-1 text-xs uppercase tracking-wider text-foreground-muted">
+                        {addon.description}
+                    </p>
+                )}
+
+                {addon.options && (
+                    <div className="flex items-center gap-2 mt-4 bg-background-secondary p-1 rounded-full border border-border/50 w-max">
+                        {addon.options.map((opt, i) => (
+                            <button
+                                key={opt.label}
+                                onClick={() => setSelectedOption(i)}
+                                className={`px-3 py-1 text-[10px] font-bold tracking-wider uppercase rounded-full transition-all ${selectedOption === i ? 'bg-accent text-white shadow-sm' : 'text-foreground-muted hover:text-foreground'}`}
+                            >
+                                {opt.label}
+                            </button>
+                        ))}
+                    </div>
+                )}
+            </div>
+            <div className="mb-6 flex flex-wrap items-baseline gap-2">
+                <span className="font-display text-2xl font-semibold">
+                    ₹{price.toLocaleString("en-IN")}
+                </span>
+                {originalPrice && (
+                    <span className="text-sm font-medium text-foreground-muted line-through opacity-70">
+                        ₹{originalPrice.toLocaleString("en-IN")}
+                    </span>
+                )}
+            </div>
+            <Link
+                href={`/contact?addon=${encodeURIComponent(bookingName)}`}
+                className="group/link mt-auto inline-flex items-center gap-2 text-sm font-medium uppercase tracking-wider text-foreground-muted transition-colors hover:text-accent"
+            >
+                Add to Package
+                <ArrowUpRight className="h-4 w-4 transition-transform group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5" />
+            </Link>
         </div>
     );
 }

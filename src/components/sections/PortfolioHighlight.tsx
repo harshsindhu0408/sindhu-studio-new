@@ -3,30 +3,16 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
-// Simple portfolio preview data
+import Image from "next/image";
+
 const previewImages = [
-    { id: 1, category: "Wedding", size: "large" },
-    { id: 2, category: "Pre-Wedding", size: "medium" },
-    { id: 3, category: "Maternity", size: "small" },
-    { id: 4, category: "Child", size: "small" },
-    { id: 5, category: "Wedding", size: "medium" },
-    { id: 6, category: "Family", size: "large" },
+    { id: 1, category: "Wedding", src: "/DSC_1487.JPG", width: 4024, height: 6048 },
+    { id: 2, category: "Wedding", src: "/DSC_2286.JPG", width: 4024, height: 6048 },
+    { id: 3, category: "Wedding", src: "/DSC_2639.JPG", width: 4024, height: 6048 },
+    { id: 4, category: "Wedding", src: "/DSC_2828.JPG", width: 4024, height: 6048 },
+    { id: 5, category: "Wedding", src: "/DSC_4223.JPG", width: 4024, height: 6048 },
+    { id: 6, category: "Wedding", src: "/DSC_4592.JPG", width: 4024, height: 6048 },
 ];
-
-const gradients = [
-    "from-amber-900/40 to-amber-700/20",
-    "from-rose-900/40 to-rose-700/20",
-    "from-violet-900/40 to-violet-700/20",
-    "from-emerald-900/40 to-emerald-700/20",
-    "from-sky-900/40 to-sky-700/20",
-    "from-orange-900/40 to-orange-700/20",
-];
-
-const sizeClasses = {
-    small: "col-span-1 row-span-1",
-    medium: "col-span-1 row-span-2",
-    large: "col-span-2 row-span-2",
-};
 
 export function PortfolioHighlight() {
     return (
@@ -52,31 +38,28 @@ export function PortfolioHighlight() {
                     </Link>
                 </div>
 
-                {/* CSS-only Bento Grid Preview */}
-                <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
-                    {previewImages.map((image, index) => (
+                {/* Uncropped Grid Layout */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {previewImages.map((image) => (
                         <article
                             key={image.id}
-                            className={`group relative overflow-hidden rounded-lg ${sizeClasses[image.size as keyof typeof sizeClasses]}`}
+                            className="group relative overflow-hidden rounded-xl bg-background-secondary w-full"
                         >
-                            <div className="relative aspect-square w-full h-full min-h-[150px]">
-                                {/* Gradient placeholder */}
-                                <div
-                                    className={`absolute inset-0 bg-gradient-to-br ${gradients[index % gradients.length]}`}
+                            <div className="relative aspect-[2/3] w-full">
+                                <Image
+                                    src={image.src}
+                                    alt={image.category}
+                                    fill
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                    className="object-cover transition-transform duration-700 will-change-transform group-hover:scale-105"
+                                    quality={85}
                                 />
 
                                 {/* Hover overlay - CSS only */}
-                                <div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/40" />
-
-                                {/* Category label on hover */}
-                                <div className="absolute bottom-4 left-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                                    <span className="text-xs font-medium uppercase tracking-wider text-accent">
-                                        {image.category}
-                                    </span>
-                                </div>
+                                <div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/20 pointer-events-none" />
 
                                 {/* Corner accent on hover */}
-                                <div className="absolute right-3 top-3 h-6 w-6 border-r border-t border-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                                <div className="absolute right-3 top-3 h-6 w-6 border-r-2 border-t-2 border-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none" />
                             </div>
                         </article>
                     ))}

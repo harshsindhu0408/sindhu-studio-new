@@ -38,7 +38,6 @@ export default function NotFound() {
                         <Link
                             href="/"
                             className="btn btn-primary"
-                            data-cursor="pointer"
                         >
                             <Home className="h-4 w-4" />
                             Back to Home
@@ -46,7 +45,6 @@ export default function NotFound() {
                         <button
                             onClick={() => window.history.back()}
                             className="btn btn-outline"
-                            data-cursor="pointer"
                         >
                             <ArrowLeft className="h-4 w-4" />
                             Go Back

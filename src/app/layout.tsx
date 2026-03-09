@@ -4,7 +4,7 @@ import Script from "next/script";
 import "./globals.css";
 import { ThemeProvider, themeScript } from "@/components/ui/ThemeProvider";
 import { SmoothScroll } from "@/components/ui/SmoothScroll";
-import { CustomCursor } from "@/components/ui/CustomCursor";
+
 import { Navbar } from "@/components/ui/Navbar";
 import { Footer } from "@/components/ui/Footer";
 import { ScrollToTop } from "@/components/ui/ScrollToTop";
@@ -120,7 +120,7 @@ export default function RootLayout({
 
         <ThemeProvider>
           <SmoothScroll>
-            <CustomCursor />
+
             <Navbar />
             <main>{children}</main>
             <Footer />
