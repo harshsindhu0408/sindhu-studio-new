@@ -1,210 +1,220 @@
 /**
- * JSON-LD Schema generators for SEO
+ * JSON-LD generators. Everything comes from src/data so the schema can never
+ * disagree with what the page says.
  */
+import { business, fullAddress, primaryPhone, SITE_URL } from "@/data/business";
+import { packages, lowestPrice, highestPrice, type Package } from "@/data/packages";
+import { addOns, addOnFromPrice } from "@/data/addons";
+import { featuredMedia, type MediaItem } from "@/data/media";
 
-export interface LocalBusinessSchema {
-    "@context": "https://schema.org";
-    "@type": "LocalBusiness";
-    "@id": string;
-    name: string;
-    image: string[];
-    description: string;
-    url: string;
-    telephone: string;
-    email: string;
-    address: {
-        "@type": "PostalAddress";
-        streetAddress: string;
-        addressLocality: string;
-        addressRegion: string;
-        postalCode: string;
-        addressCountry: string;
+const ORG_ID = `${SITE_URL}/#business`;
+const SITE_ID = `${SITE_URL}/#website`;
+const FOUNDER_ID = `${SITE_URL}/about#founder`;
+
+const abs = (path: string) => (path.startsWith("http") ? path : `${SITE_URL}${path}`);
+
+function packageOffer(pkg: Package) {
+    return {
+        "@type": "Offer",
+        name: `${pkg.name} wedding photography package`,
+        price: pkg.price,
+        priceCurrency: "INR",
+        url: `${SITE_URL}/packages#${pkg.id}`,
+        availability: "https://schema.org/InStock",
+        itemOffered: {
+            "@type": "Service",
+            name: `${pkg.name} Wedding Photography Package`,
+            description: `${pkg.summary} Includes: ${pkg.highlights.join(", ")}.`,
+            serviceType: "Wedding photography and videography",
+            provider: { "@id": ORG_ID },
+        },
     };
-    geo: {
-        "@type": "GeoCoordinates";
-        latitude: number;
-        longitude: number;
-    };
-    openingHoursSpecification: {
-        "@type": "OpeningHoursSpecification";
-        dayOfWeek: string[];
-        opens: string;
-        closes: string;
-    }[];
-    priceRange: string;
-    sameAs: string[];
 }
 
-export function getLocalBusinessSchema(): LocalBusinessSchema {
+export function businessSchema() {
     return {
         "@context": "https://schema.org",
         "@type": "LocalBusiness",
-        "@id": "https://sindhustudio.com",
-        name: "Sindhu Studio",
-        image: [
-            "https://sindhustudio.com/images/studio-1.jpg",
-            "https://sindhustudio.com/images/studio-2.jpg",
-        ],
-        description:
-            "Premium photography studio specializing in wedding, pre-wedding, maternity, and portrait photography in Rohtak, India.",
-        url: "https://sindhustudio.com",
-        telephone: "+91-94163-70132",
-        email: "sindhustudiorohtak@gmail.com",
+        "@id": ORG_ID,
+        name: business.name,
+        legalName: business.legalName,
+        alternateName: business.alternateNames,
+        description: business.description,
+        url: SITE_URL,
+        logo: `${SITE_URL}/icon`,
+        image: featuredMedia.slice(0, 6).map((m) => abs(m.src)),
+        telephone: primaryPhone.tel,
+        email: business.email,
+        priceRange: `₹${lowestPrice.toLocaleString("en-IN")} – ₹${highestPrice.toLocaleString("en-IN")}`,
+        currenciesAccepted: "INR",
+        paymentAccepted: "UPI, Bank transfer, Cash, Card",
+        foundingDate: String(business.foundingYear),
+        founder: { "@type": "Person", "@id": FOUNDER_ID, name: business.founder.name, jobTitle: business.founder.jobTitle },
         address: {
             "@type": "PostalAddress",
-            streetAddress: "Shop no. 17, Sindhu Digital Studio, Delhi Road, opp. Balmev plaza, Dev Colony, Rohtak, Haryana, India",
-            addressLocality: "Rohtak",
-            addressRegion: "Haryana",
-            postalCode: "124001",
-            addressCountry: "IN",
+            streetAddress: business.address.street,
+            addressLocality: business.address.locality,
+            addressRegion: business.address.region,
+            postalCode: business.address.postalCode,
+            addressCountry: business.address.country,
         },
-        geo: {
-            "@type": "GeoCoordinates",
-            latitude: 28.8955,
-            longitude: 76.6066,
-        },
+        geo: { "@type": "GeoCoordinates", latitude: business.geo.lat, longitude: business.geo.lng },
+        hasMap: business.mapsUrl,
         openingHoursSpecification: [
             {
                 "@type": "OpeningHoursSpecification",
-                dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-                opens: "10:00",
-                closes: "19:00",
+                dayOfWeek: business.hours.days,
+                opens: business.hours.opens,
+                closes: business.hours.closes,
             },
         ],
-        priceRange: "₹₹₹",
-        sameAs: [
-            "https://www.instagram.com/sindhustudio",
-            "https://www.facebook.com/sindhustudio",
-            "https://www.youtube.com/sindhustudio",
+        areaServed: business.areaServed.map((name) => ({ "@type": "City", name })),
+        knowsAbout: [
+            "Wedding photography",
+            "Candid photography",
+            "Cinematic wedding films",
+            "Pre-wedding shoots",
+            "Drone photography",
+            "Haldi and mehendi photography",
+            "LED screen rental for weddings",
         ],
-    };
-}
-
-export interface PhotographyServiceSchema {
-    "@context": "https://schema.org";
-    "@type": "Service";
-    name: string;
-    description: string;
-    provider: {
-        "@type": "LocalBusiness";
-        name: string;
-        url: string;
-    };
-    serviceType: string;
-    areaServed: {
-        "@type": "Country";
-        name: string;
-    };
-}
-
-export function getPhotographyServiceSchema(
-    serviceName: string,
-    description: string,
-    serviceType: string
-): PhotographyServiceSchema {
-    return {
-        "@context": "https://schema.org",
-        "@type": "Service",
-        name: serviceName,
-        description,
-        provider: {
-            "@type": "LocalBusiness",
-            name: "Sindhu Studio",
-            url: "https://sindhustudio.com",
-        },
-        serviceType,
-        areaServed: {
-            "@type": "Country",
-            name: "India",
+        sameAs: Object.values(business.socials),
+        hasOfferCatalog: {
+            "@type": "OfferCatalog",
+            name: "Wedding photography packages and add-ons",
+            itemListElement: [
+                {
+                    "@type": "OfferCatalog",
+                    name: "Wedding packages",
+                    itemListElement: packages.map(packageOffer),
+                },
+                {
+                    "@type": "OfferCatalog",
+                    name: "Add-ons",
+                    itemListElement: addOns.map((a) => ({
+                        "@type": "Offer",
+                        name: a.name,
+                        price: addOnFromPrice(a),
+                        priceCurrency: "INR",
+                        url: `${SITE_URL}/add-ons#${a.id}`,
+                        itemOffered: { "@type": "Service", name: a.name, description: a.description, provider: { "@id": ORG_ID } },
+                    })),
+                },
+            ],
         },
     };
 }
 
-export interface OrganizationSchema {
-    "@context": "https://schema.org";
-    "@type": "Organization";
-    name: string;
-    url: string;
-    logo: string;
-    description: string;
-    founder: {
-        "@type": "Person";
-        name: string;
-    };
-    foundingDate: string;
-    sameAs: string[];
-}
-
-export function getOrganizationSchema(): OrganizationSchema {
+export function websiteSchema() {
     return {
         "@context": "https://schema.org",
-        "@type": "Organization",
-        name: "Sindhu Studio",
-        url: "https://sindhustudio.com",
-        logo: "https://sindhustudio.com/logo.png",
-        description:
-            "Premium photography studio capturing life's most precious moments with artistry and passion since 2000.",
-        founder: {
-            "@type": "Person",
-            name: "Krishan Sindhu",
-        },
-        foundingDate: "2000",
-        sameAs: [
-            "https://www.instagram.com/sindhustudio",
-            "https://www.facebook.com/sindhustudio",
-            "https://www.youtube.com/@sindhustudiorohtak",
-        ],
+        "@type": "WebSite",
+        "@id": SITE_ID,
+        url: SITE_URL,
+        name: business.name,
+        inLanguage: "en-IN",
+        publisher: { "@id": ORG_ID },
     };
 }
 
-export function getProductSchema() {
+export function breadcrumbSchema(items: { name: string; path: string }[]) {
     return {
         "@context": "https://schema.org",
-        "@type": "ItemList",
-        "itemListElement": [
-            {
-                "@type": "Product",
-                "name": "Silver Package - Wedding Essential",
-                "description": "2 Day Coverage, Candid & Traditional Photography, High Resolution Digital Files.",
-                "brand": { "@type": "Brand", "name": "Sindhu Studio" },
-                "offers": { "@type": "Offer", "availability": "https://schema.org/InStock" }
-            },
-            {
-                "@type": "Product",
-                "name": "Gold Package - Cinematic Premium",
-                "description": "3 Day Coverage, Pre-wedding shoot, Drone coverage, Cinematic Film.",
-                "brand": { "@type": "Brand", "name": "Sindhu Studio" },
-                "offers": { "@type": "Offer", "availability": "https://schema.org/InStock" }
-            },
-            {
-                "@type": "Product",
-                "name": "Platinum Package - The Royal Edit",
-                "description": "Complete wedding coverage, luxury albums, same-day edit, dedicated senior team.",
-                "brand": { "@type": "Brand", "name": "Sindhu Studio" },
-                "offers": { "@type": "Offer", "availability": "https://schema.org/InStock" }
-            }
-        ]
+        "@type": "BreadcrumbList",
+        itemListElement: [{ name: "Home", path: "/" }, ...items].map((item, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            name: item.name,
+            item: abs(item.path),
+        })),
     };
 }
 
-export function getImageGallerySchema() {
+export function faqSchema(items: { question: string; answer: string }[]) {
+    return {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: items.map((i) => ({
+            "@type": "Question",
+            name: i.question,
+            acceptedAnswer: { "@type": "Answer", text: i.answer },
+        })),
+    };
+}
+
+export function packagesSchema() {
+    return {
+        "@context": "https://schema.org",
+        "@type": "OfferCatalog",
+        name: `Wedding photography packages, ${business.address.locality}`,
+        url: `${SITE_URL}/packages`,
+        provider: { "@id": ORG_ID },
+        itemListElement: packages.map(packageOffer),
+    };
+}
+
+/** ImageObject with licence info: eligible for the "Licensable" badge in Google Images. */
+export function imageObject(m: MediaItem) {
+    return {
+        "@type": "ImageObject",
+        contentUrl: abs(m.src),
+        width: m.width,
+        height: m.height,
+        caption: m.alt,
+        creator: { "@id": ORG_ID },
+        creditText: business.name,
+        copyrightNotice: `© ${business.name}, ${business.address.locality}`,
+        license: `${SITE_URL}/terms#copyright`,
+        acquireLicensePage: `${SITE_URL}/contact`,
+    };
+}
+
+export function gallerySchema(name: string, description: string, path: string, items: MediaItem[]) {
     return {
         "@context": "https://schema.org",
         "@type": "ImageGallery",
-        "name": "Sindhu Studio Best Wedding Photos",
-        "description": "A curated collection of our finest wedding, pre-wedding, and portrait photography from Rohtak and across India.",
-        "provider": { "@type": "LocalBusiness", "name": "Sindhu Studio" }
+        name,
+        description,
+        url: abs(path),
+        author: { "@id": ORG_ID },
+        image: items.map(imageObject),
     };
 }
 
-/**
- * Generates a script tag with JSON-LD data
- */
+export function videoSchema() {
+    return {
+        "@context": "https://schema.org",
+        "@type": "VideoObject",
+        name: "Wedding teaser by Sindhu Studio",
+        description: `A wedding teaser filmed by ${business.name}, ${business.address.locality}: drone shots of the venue, haldi, baraat and pheras.`,
+        thumbnailUrl: abs("/films/teaser-poster.webp"),
+        contentUrl: abs("/films/teaser-720.mp4"),
+        uploadDate: "2026-01-02",
+        duration: "PT1M12S",
+        publisher: { "@id": ORG_ID },
+    };
+}
+
+export function personSchema() {
+    return {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "@id": FOUNDER_ID,
+        name: business.founder.name,
+        jobTitle: business.founder.jobTitle,
+        worksFor: { "@id": ORG_ID },
+        address: { "@type": "PostalAddress", addressLocality: business.address.locality, addressRegion: business.address.region, addressCountry: "IN" },
+    };
+}
+
+export { fullAddress };
+
+/** Renders a JSON-LD script tag. `<` is escaped so content can never close the tag. */
 export function JsonLd({ data }: { data: object }) {
     return (
         <script
             type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(data).replace(/</g, "\\u003c") }}
         />
     );
 }

@@ -40,10 +40,19 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         return "dark";
     });
 
-    // Sync state with actual DOM on mount (for SSR hydration)
+    // After hydration, re-apply the stored/system theme: React owns <html className>,
+    // so the class set by the pre-hydration script must be restored here.
     useEffect(() => {
-        const isDark = document.documentElement.classList.contains("dark");
-        setThemeState(isDark ? "dark" : "light");
+        let stored: string | null = null;
+        try {
+            stored = localStorage.getItem("sindhu-theme");
+        } catch {
+            // storage blocked
+        }
+        const resolved: Theme = stored === "light" || stored === "dark" ? stored : window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        document.documentElement.classList.toggle("dark", resolved === "dark");
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time sync with the stored theme after hydration
+        setThemeState(resolved);
     }, []);
 
     // Update document class and localStorage when theme changes via user action
@@ -54,7 +63,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         } else {
             root.classList.remove("dark");
         }
-        localStorage.setItem("sindhu-theme", newTheme);
+        try {
+            localStorage.setItem("sindhu-theme", newTheme);
+        } catch {
+            // storage blocked: theme still applies for this visit
+        }
         setThemeState(newTheme);
     };
 

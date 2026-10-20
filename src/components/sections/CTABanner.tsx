@@ -1,98 +1,55 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight } from "lucide-react";
+import { getMedia } from "@/data/media";
+import { whatsappLink } from "@/data/business";
+import { localePath, type Locale } from "@/i18n";
+import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 
-export function CTABanner() {
+const photo = getMedia("bride-red-veil-dramatic-light");
+
+const copy = {
+    en: {
+        badge: "Wedding season 2026–27",
+        title: "Your story deserves",
+        titleEm: "to be told beautifully",
+        body: "Popular muhurat dates book out first. Build your quote in a minute and check your date with us on WhatsApp.",
+        cta: "Build my quote",
+        wa: "Check my date",
+        waMessage: "Namaste! Is Sindhu Studio available on my wedding date?",
+    },
+    hi: {
+        badge: "शादी का सीज़न 2026–27",
+        title: "आपकी कहानी",
+        titleEm: "खूबसूरती से कहने लायक है",
+        body: "बड़े मुहूर्त की तारीखें सबसे पहले भरती हैं। एक मिनट में कोटेशन बनाएं और WhatsApp पर अपनी तारीख चेक करें।",
+        cta: "अपना कोटेशन बनाएं",
+        wa: "तारीख चेक करें",
+        waMessage: "नमस्ते! क्या Sindhu Studio हमारी शादी की तारीख पर उपलब्ध है?",
+    },
+};
+
+export function CTABanner({ locale = "en" }: { locale?: Locale }) {
+    const c = copy[locale];
     return (
-        <section className="relative overflow-hidden py-24 md:py-32">
-            {/* Background with gradient */}
-            <div className="absolute inset-0 bg-gradient-to-br from-accent via-accent to-accent-light" />
-
-            {/* Decorative patterns */}
-            <div className="absolute inset-0 opacity-10">
-                <div
-                    className="h-full w-full"
-                    style={{
-                        backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`,
-                        backgroundSize: "40px 40px",
-                    }}
-                />
-            </div>
-
-            {/* Decorative circles */}
-            <motion.div
-                className="absolute -left-32 -top-32 h-64 w-64 rounded-full border border-white/20"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
-            />
-            <motion.div
-                className="absolute -bottom-32 -right-32 h-96 w-96 rounded-full border border-white/10"
-                animate={{ rotate: -360 }}
-                transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-            />
-
-            {/* Content */}
-            <div className="container-custom relative z-10">
-                <div className="mx-auto max-w-3xl text-center">
-                    {/* Badge */}
-                    <motion.div
-                        className="mb-6 inline-block rounded-full border border-white/30 bg-white/10 px-4 py-1.5 text-xs font-medium uppercase tracking-wider text-white backdrop-blur-sm"
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                    >
-                        Limited Availability
-                    </motion.div>
-
-                    {/* Headline */}
-                    <motion.h2
-                        className="font-display text-4xl font-medium text-white md:text-5xl lg:text-6xl"
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.1 }}
-                        viewport={{ once: true }}
-                    >
-                        Ready to Create
-                        <br />
-                        <span className="italic">Timeless Memories?</span>
-                    </motion.h2>
-
-                    {/* Subtitle */}
-                    <motion.p
-                        className="mt-6 text-lg text-white/80"
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.2 }}
-                        viewport={{ once: true }}
-                    >
-                        Book your date today and let us capture the moments that matter most.
-                        Premium dates fill up quickly.
-                    </motion.p>
-
-                    {/* CTA Buttons */}
-                    <motion.div
-                        className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.3 }}
-                        viewport={{ once: true }}
-                    >
-                        <Link
-                            href="/contact"
-                            className="group inline-flex items-center gap-2 rounded-sm bg-white px-8 py-4 text-sm font-medium uppercase tracking-wider text-accent transition-all duration-300 hover:bg-white/90 hover:shadow-lg"
-                        >
-                            Book Your Date
-                            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+        <section className="relative overflow-hidden py-28 text-[#F5EFE6] md:py-40">
+            <Image src={photo.src} alt={photo.alt} fill sizes="100vw" placeholder="blur" blurDataURL={photo.blurDataURL} className="object-cover object-[50%_30%]" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#14110F]/95 via-[#14110F]/70 to-[#14110F]/30" />
+            <div className="container-custom relative">
+                <div className="max-w-2xl">
+                    <span className="inline-block rounded-full border border-[#F5EFE6]/30 bg-white/10 px-4 py-1.5 text-xs font-medium uppercase tracking-wider backdrop-blur-sm">{c.badge}</span>
+                    <h2 className="mt-6 font-display text-4xl font-medium leading-tight md:text-6xl">
+                        {c.title} <span className="italic text-[#E8C785]">{c.titleEm}</span>
+                    </h2>
+                    <p className="mt-6 text-lg text-[#F5EFE6]/80">{c.body}</p>
+                    <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+                        <Link href={localePath(locale, "/build")} className="btn bg-[#E8C785] text-[#14110F] hover:bg-[#F5EFE6]">
+                            {c.cta} <ArrowRight className="h-4 w-4" aria-hidden />
                         </Link>
-                        <Link
-                            href="/portfolio"
-                            className="inline-flex items-center gap-2 rounded-sm border border-white/30 bg-transparent px-8 py-4 text-sm font-medium uppercase tracking-wider text-white transition-all duration-300 hover:bg-white/10"
-                        >
-                            View Portfolio
-                        </Link>
-                    </motion.div>
+                        <a href={whatsappLink(c.waMessage)} target="_blank" rel="noopener noreferrer" className="btn border border-[#F5EFE6]/40 text-[#F5EFE6] hover:border-[#E8C785] hover:text-[#E8C785]">
+                            <WhatsAppIcon className="h-4 w-4" /> {c.wa}
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
