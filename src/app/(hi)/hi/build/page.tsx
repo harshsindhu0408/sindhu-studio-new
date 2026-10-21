@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 export default function Page() {
     return (
-        <div className="pt-28 md:pt-36">
+        <div className="pt-28 md:pt-36 print:pt-0">
             <header className="container-custom mb-10 max-w-3xl print:hidden">
                 <p className="text-xs font-bold uppercase tracking-[0.2em] text-accent">कोटेशन बिल्डर</p>
                 <h1 className="mt-4 font-display text-4xl leading-tight md:text-6xl">आपकी शादी, आपका दाम</h1>

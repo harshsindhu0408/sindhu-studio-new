@@ -118,8 +118,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-  /* GPU acceleration */
-  transform: translateZ(0);
+  /* No transform here: a transform on <body> turns every position:fixed element (lightbox,
+     menus, floating buttons) into page-sized absolute boxes. */
 }
 
 /* ============================================
@@ -310,6 +310,7 @@ h6 {
 
 /* Button base */
 .btn {
+  cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -478,6 +479,51 @@ h6 {
     background: #fff !important;
     color: #000 !important;
   }
+  /* Print in the light palette whatever theme is on screen */
+  :root,
+  .dark {
+    --background: 255 255 255;
+    --background-secondary: 248 244 238;
+    --card: 255 255 255;
+    --foreground: 28 23 20;
+    --foreground-muted: 107 97 88;
+    --accent: 138 100 32;
+    --accent-foreground: 255 255 255;
+    --border: 225 214 198;
+    --success: 31 122 74;
+    --sindoor: 179 25 46;
+  }
+  [data-print-page] {
+    padding: 0 !important;
+  }
+  /* Floating buttons and bars (scroll-to-top, WhatsApp, mobile bar) must never land on top of a printed quote */
+  .fixed {
+    display: none !important;
+  }
+  [data-print-quote] {
+    border: 0 !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+  }
+}
+
+@page {
+  size: A4;
+  margin: 14mm 14mm 16mm;
+}
+
+/* Tailwind's preflight resets buttons to the default cursor; anything clickable should show a pointer. */
+button:not(:disabled),
+[role="button"]:not([aria-disabled="true"]),
+summary,
+select,
+label:has(> input[type="radio"]),
+label:has(> input[type="checkbox"]) {
+  cursor: pointer;
+}
+.btn:disabled,
+button:disabled {
+  cursor: not-allowed;
 }
 
 /* Legal page body text */

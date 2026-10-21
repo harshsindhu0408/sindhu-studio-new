@@ -87,13 +87,15 @@ export const paymentTerms = {
     // Confirmed by the owner: 25%.
     bookingPercent: 25,
     schedule: [
-        { percent: 25, when: "to book your date (non-refundable)" },
-        { percent: 50, when: "on the day of the event" },
-        { percent: 25, when: "before final delivery of photos and videos" },
+        { percent: 25, when: "to book your date (non-refundable)", whenHi: "तारीख बुक करने के लिए (वापस नहीं होगा)" },
+        { percent: 50, when: "on the day of the event", whenHi: "कार्यक्रम के दिन" },
+        { percent: 25, when: "before final delivery of photos and videos", whenHi: "फोटो और वीडियो की फ़ाइनल डिलीवरी से पहले" },
     ],
     methods: ["UPI", "Bank transfer (NEFT/IMPS/RTGS)", "Cash", "Cards"],
+    methodsHi: ["UPI", "बैंक ट्रांसफ़र (NEFT/IMPS/RTGS)", "नकद", "कार्ड"],
     // VERIFY: are package prices GST-inclusive?
     gstNote: "Prices are in Indian Rupees. GST, if applicable, is shown on your invoice.",
+    gstNoteHi: "दाम भारतीय रुपये में हैं। GST लागू होने पर बिल में दिखाया जाता है।",
     quoteValidityDays: 7,
 } as const;
 
@@ -103,7 +105,9 @@ export const cancellationTiers = [
         id: "early",
         minDays: 61,
         label: "More than 60 days before",
+        labelHi: "60 दिन से ज़्यादा पहले",
         outcome: "Booking amount is non-refundable, but can be moved to a new date once, subject to availability.",
+        outcomeHi: "बुकिंग अमाउंट वापस नहीं होता, पर उपलब्धता के हिसाब से एक बार नई तारीख पर ले जाया जा सकता है।",
         chargePercent: 25,
         transferable: true,
     },
@@ -111,7 +115,9 @@ export const cancellationTiers = [
         id: "mid",
         minDays: 30,
         label: "30 to 60 days before",
+        labelHi: "30 से 60 दिन पहले",
         outcome: "Booking amount is non-refundable.",
+        outcomeHi: "बुकिंग अमाउंट वापस नहीं होता।",
         chargePercent: 25,
         transferable: false,
     },
@@ -119,14 +125,16 @@ export const cancellationTiers = [
         id: "late",
         minDays: 0,
         label: "Less than 30 days before",
+        labelHi: "30 दिन से कम पहले",
         outcome: "50% of the total package price is payable.",
+        outcomeHi: "कुल पैकेज दाम का 50% देना होगा।",
         chargePercent: 50,
         transferable: false,
     },
 ] as const;
 
 export const deliveryTimeline = [
-    { item: "Teaser & highlights", time: "1–2 weeks after the event" },
-    { item: "Full photo gallery for selection", time: "4–6 weeks after the event" },
-    { item: "Cinematic film & album", time: "8–12 weeks after you approve photo selection and songs" },
+    { item: "Teaser & highlights", time: "1–2 weeks after the event", itemHi: "टीज़र और हाइलाइट्स", timeHi: "कार्यक्रम के 1–2 हफ़्ते बाद" },
+    { item: "Full photo gallery for selection", time: "4–6 weeks after the event", itemHi: "चुनने के लिए पूरी फोटो गैलरी", timeHi: "कार्यक्रम के 4–6 हफ़्ते बाद" },
+    { item: "Cinematic film & album", time: "8–12 weeks after you approve photo selection and songs", itemHi: "सिनेमैटिक फ़िल्म और एल्बम", timeHi: "फोटो और गाने फ़ाइनल करने के 8–12 हफ़्ते बाद" },
 ] as const;

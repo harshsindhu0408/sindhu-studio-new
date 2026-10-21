@@ -2,6 +2,21 @@ import Link from "next/link";
 import { Link2, Printer } from "lucide-react";
 import { JsonLd, breadcrumbSchema } from "@/lib/schema";
 import { PrintButton } from "./PrintButton";
+import type { Locale } from "@/i18n";
+
+const ui = {
+    en: { onPage: "On this page", related: "Related", legal: "Legal", updated: "Last updated", print: "Print / save PDF", inShort: "In short", plain: "In plain words", linkTo: "Link to" },
+    hi: {
+        onPage: "इस पेज पर",
+        related: "संबंधित",
+        legal: "कानूनी",
+        updated: "आख़िरी अपडेट",
+        print: "प्रिंट / PDF सेव करें",
+        inShort: "संक्षेप में",
+        plain: "आसान शब्दों में",
+        linkTo: "लिंक",
+    },
+};
 
 export interface LegalSection {
     id: string;
@@ -20,6 +35,7 @@ export function LegalPage({
     sections,
     related,
     after,
+    locale = "en",
 }: {
     title: string;
     path: string;
@@ -29,25 +45,27 @@ export function LegalPage({
     sections: LegalSection[];
     related: { label: string; href: string }[];
     after?: React.ReactNode;
+    locale?: Locale;
 }) {
+    const t = ui[locale];
     return (
         <div className="pb-24 pt-28 md:pt-36">
-            <JsonLd data={breadcrumbSchema([{ name: title, path }])} />
+            {locale === "en" && <JsonLd data={breadcrumbSchema([{ name: title, path }])} />}
             <div className="container-custom grid gap-12 lg:grid-cols-[240px_1fr] lg:gap-16">
                 {/* Table of contents */}
                 <aside className="print:hidden">
                     <details className="group rounded-2xl border border-border p-4 lg:hidden">
                         <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between font-medium [&::-webkit-details-marker]:hidden">
-                            On this page
+                            {t.onPage}
                             <span className="text-foreground-muted transition-transform group-open:rotate-180">▾</span>
                         </summary>
                         <Toc sections={sections} />
                     </details>
-                    <nav aria-label="On this page" className="sticky top-28 hidden lg:block">
-                        <p className="text-xs font-bold uppercase tracking-[0.18em] text-accent">On this page</p>
+                    <nav aria-label={t.onPage} className="sticky top-28 hidden lg:block">
+                        <p className="text-xs font-bold uppercase tracking-[0.18em] text-accent">{t.onPage}</p>
                         <Toc sections={sections} />
                         <div className="mt-8 border-t border-border pt-6">
-                            <p className="text-xs font-bold uppercase tracking-[0.18em] text-foreground-muted">Related</p>
+                            <p className="text-xs font-bold uppercase tracking-[0.18em] text-foreground-muted">{t.related}</p>
                             <ul className="mt-3 space-y-2 text-sm">
                                 {related.map((r) => (
                                     <li key={r.href}>
@@ -63,20 +81,31 @@ export function LegalPage({
 
                 <article className="min-w-0 max-w-3xl">
                     <header>
-                        <p className="text-xs font-bold uppercase tracking-[0.2em] text-accent">Legal</p>
+                        <p className="text-xs font-bold uppercase tracking-[0.2em] text-accent">{t.legal}</p>
                         <h1 className="mt-3 font-display text-4xl md:text-6xl">{title}</h1>
                         <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-foreground-muted">
-                            <span>Last updated {updated}</span>
+                            <span>
+                                {t.updated} {updated}
+                            </span>
                             <PrintButton>
-                                <Printer className="h-4 w-4" aria-hidden /> Print / save PDF
+                                <Printer className="h-4 w-4" aria-hidden /> {t.print}
                             </PrintButton>
                         </div>
                         <div className="mt-6 text-lg leading-relaxed text-foreground-muted">{intro}</div>
+                        {locale === "hi" && (
+                            <p className="mt-4 rounded-xl border border-border bg-background-secondary p-4 text-sm text-foreground-muted">
+                                यह हिंदी अनुवाद आपकी सुविधा के लिए है। हिंदी और{" "}
+                                <Link href={path} hrefLang="en" className="text-accent underline underline-offset-2">
+                                    अंग्रेज़ी संस्करण
+                                </Link>{" "}
+                                में कोई अंतर होने पर अंग्रेज़ी संस्करण मान्य होगा।
+                            </p>
+                        )}
                     </header>
 
                     <section aria-labelledby="in-short" className="mt-8 rounded-2xl border border-accent/40 bg-accent/[0.06] p-6">
                         <h2 id="in-short" className="font-sans text-xs font-bold uppercase tracking-[0.18em] text-accent">
-                            In short
+                            {t.inShort}
                         </h2>
                         <ul className="mt-3 space-y-2">
                             {inShort.map((s) => (
@@ -93,13 +122,13 @@ export function LegalPage({
                             <h2 id={`${s.id}-h`} className="group flex items-baseline gap-3 font-display text-2xl md:text-3xl">
                                 <span className="tabular font-sans text-sm text-accent">{String(i + 1).padStart(2, "0")}</span>
                                 {s.title}
-                                <a href={`#${s.id}`} className="opacity-0 transition-opacity group-hover:opacity-100 focus:opacity-100 print:hidden" aria-label={`Link to ${s.title}`}>
+                                <a href={`#${s.id}`} className="opacity-0 transition-opacity group-hover:opacity-100 focus:opacity-100 print:hidden" aria-label={`${t.linkTo}: ${s.title}`}>
                                     <Link2 className="h-4 w-4 text-foreground-muted" aria-hidden />
                                 </a>
                             </h2>
                             {s.summary && (
                                 <div className="mt-4 rounded-xl bg-background-secondary p-4 text-sm">
-                                    <p className="font-semibold">In plain words</p>
+                                    <p className="font-semibold">{t.plain}</p>
                                     <ul className="mt-1 list-disc space-y-1 pl-5 text-foreground-muted">
                                         {s.summary.map((x) => (
                                             <li key={x}>{x}</li>

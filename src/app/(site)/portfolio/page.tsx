@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { PortfolioView } from "@/components/portfolio/PortfolioView";
 import { media } from "@/data/media";
 import { business } from "@/data/business";
+import { languageAlternates } from "@/i18n";
 import { JsonLd, breadcrumbSchema, gallerySchema } from "@/lib/schema";
 
 const title = `Wedding Photography Portfolio: ${business.address.locality}, Haryana`;
@@ -10,7 +11,7 @@ const description = `Bridal portraits, varmala and sindoor moments, haldi, mehen
 export const metadata: Metadata = {
     title,
     description,
-    alternates: { canonical: "/portfolio" },
+    alternates: { canonical: "/portfolio", ...languageAlternates("/portfolio") },
     openGraph: { title, description, url: "/portfolio" },
 };
 

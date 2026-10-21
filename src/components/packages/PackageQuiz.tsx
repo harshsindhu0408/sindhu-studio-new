@@ -7,7 +7,7 @@ import { getAddOn, type AddOnId } from "@/data/addons";
 import type { FeatureId, PackageId } from "@/data/packages";
 import { formatINR } from "@/lib/quote";
 import { track } from "@/lib/analytics";
-import { bestFit, cheapestFit, type Requirement } from "@/lib/recommend";
+import { bestFit, bestFitWithin, type Requirement } from "@/lib/recommend";
 import { getDictionary, localePath, type Locale } from "@/i18n";
 import { cn } from "@/lib/utils";
 
@@ -40,7 +40,7 @@ export function PackageQuiz({ onRecommend, locale = "en" }: { onRecommend: (id: 
     const result = useMemo(() => {
         const reqs: Requirement[] = wants.filter((w) => selected.includes(w.id)).map((w) => ({ addOn: w.addOn, feature: w.feature }));
         const max = budgets.find((b) => b.id === budget)?.max ?? Infinity;
-        const fit = max === Infinity ? bestFit(reqs) : cheapestFit(reqs);
+        const fit = max === Infinity ? bestFit(reqs) : bestFitWithin(reqs, max);
         return fit ? { fit, overBudget: fit.total > max } : null;
     }, [selected, budget]);
 

@@ -17,16 +17,19 @@ export const getAvailability = cache(async (): Promise<Record<string, DayStatus>
     return map;
 });
 
-export const getJournalPosts = cache(async () => {
-    const posts = await reader.collections.journal.all();
+/** Hindi articles live in their own collection, with the same slugs as the English ones. */
+const journalCollection = (locale: "en" | "hi") => (locale === "hi" ? reader.collections.journalHi : reader.collections.journal);
+
+export const getJournalPosts = cache(async (locale: "en" | "hi" = "en") => {
+    const posts = await journalCollection(locale).all();
     return posts
         .map((p) => ({ slug: p.slug, ...p.entry }))
         .filter((p) => p.date)
         .sort((a, b) => (b.date ?? "").localeCompare(a.date ?? ""));
 });
 
-export async function getJournalPost(slug: string) {
-    const entry = await reader.collections.journal.read(slug);
+export async function getJournalPost(slug: string, locale: "en" | "hi" = "en") {
+    const entry = await journalCollection(locale).read(slug);
     if (!entry) return null;
     const { node } = await entry.content();
     return { slug, ...entry, node };

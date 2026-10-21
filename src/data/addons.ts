@@ -157,7 +157,7 @@ export const addOns: AddOn[] = [
         descriptionHi: "आपकी शादी की प्राइवेट YouTube लाइव स्ट्रीम, उन रिश्तेदारों के लिए जो आ नहीं सकते, देश में हों या विदेश में।",
         category: "venue-tech",
         pricing: { type: "flat", price: 9999 },
-        media: { src: "/images/addons/live-stream.webp", alt: "Wedding couple on stage shown on a phone as a live stream" },
+        media: { src: "/images/addons/live-stream.webp", alt: "Wedding couple shown on a live stream, watched by family abroad" },
     },
     {
         id: "kuan-poojan",

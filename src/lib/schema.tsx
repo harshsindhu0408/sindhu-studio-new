@@ -41,7 +41,7 @@ export function businessSchema() {
         alternateName: business.alternateNames,
         description: business.description,
         url: SITE_URL,
-        logo: `${SITE_URL}/icon`,
+        logo: `${SITE_URL}/icon-512.png`,
         image: featuredMedia.slice(0, 6).map((m) => abs(m.src)),
         telephone: primaryPhone.tel,
         email: business.email,

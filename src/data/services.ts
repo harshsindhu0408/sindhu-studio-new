@@ -154,7 +154,7 @@ export const services: Service[] = [
         tagline: "So the last row sees the pheras.",
         answer:
             "Sindhu Studio provides LED screens at weddings showing the live camera feed. Every package includes two 43-inch LED screens. An 8×12 ft LED wall is included from Platinum (two in Exclusive), or costs ₹9,999 as an add-on. Extra 43-inch screens cost ₹2,999 for one or ₹4,999 for two.",
-        image: { src: "/images/addons/led-wall.webp", alt: "LED wall beside a decorated wedding stage" },
+        image: { src: "/images/addons/led-wall-scene.webp", alt: "Guests watching the varmala live on a large LED wall at a night wedding" },
         addOn: "led-wall",
         includedIn: ["platinum", "diamond", "prime", "exclusive"],
         whatYouGet: ["Live camera feed on screen", "Your pre-wedding film and photos between rituals", "Set-up and operation by our team"],
@@ -169,7 +169,7 @@ export const services: Service[] = [
         tagline: "Nani in Canada watches the pheras live.",
         answer:
             "Sindhu Studio live streams weddings on a private YouTube link so family abroad or unable to travel can watch in real time. Live streaming costs ₹9,999 and uses the same professional cameras as your wedding video. The venue needs a working internet connection.",
-        image: { src: "/images/addons/live-stream.webp", alt: "Wedding couple on stage shown on a live stream" },
+        image: { src: "/images/addons/live-stream.webp", alt: "Wedding couple shown on a live stream on a laptop and a phone, with messages from family abroad" },
         addOn: "live-stream",
         whatYouGet: ["Private or unlisted YouTube stream", "Professional camera feed, not a phone", "A link you can share on the family WhatsApp group"],
         howWeShoot: [{ title: "Tested before the rituals", body: "We test the connection at the venue before the ceremony starts, so relatives abroad don't miss the pheras." }],

@@ -50,9 +50,6 @@ export function WhyUs({ locale = "en" }: { locale?: Locale }) {
                     <div className="absolute bottom-[8%] left-[6%] h-[26%] w-[30%] rotate-[-4deg] overflow-hidden rounded-2xl border-4 border-background shadow-xl">
                         <Image src={photos[2].src} alt={photos[2].alt} fill sizes="20vw" placeholder="blur" blurDataURL={photos[2].blurDataURL} className="object-cover" />
                     </div>
-                    <span aria-hidden className="absolute -right-3 top-[10%] rounded-full bg-[#B3192E] px-4 py-2 font-display text-lg text-white shadow-lg">
-                        {business.foundingYear}
-                    </span>
                 </div>
 
                 <div>

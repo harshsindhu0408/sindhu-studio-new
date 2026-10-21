@@ -10,12 +10,13 @@ export function getDictionary(locale: Locale): Dictionary {
     return dictionaries[locale];
 }
 
-/** English paths that have a Hindi version at /hi/... */
-export const hindiPaths = ["/", "/packages", "/build", "/add-ons", "/plan", "/vivah-muhurat-2027"] as const;
+/** Routes that exist only in English (tools, APIs and machine-readable files). Every other page has a Hindi version at /hi/... */
+const englishOnly = ["/keystatic", "/api", "/build/card", "/llms.txt", "/llms-full.txt", "/sitemap.xml", "/robots.txt"];
 
 export function hasHindi(path: string) {
     const clean = path.split("?")[0].split("#")[0];
-    return (hindiPaths as readonly string[]).includes(clean);
+    if (!clean.startsWith("/") || clean.startsWith("/hi/") || clean === "/hi") return false;
+    return !englishOnly.some((p) => clean === p || clean.startsWith(`${p}/`));
 }
 
 /** Link to a page in the given locale, falling back to English when no Hindi page exists. */

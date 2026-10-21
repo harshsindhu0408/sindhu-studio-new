@@ -6,7 +6,7 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowDown, ArrowRight, Check, Download, Link2, Minus, Plus, Share2, Sparkles, X } from "lucide-react";
 import { addOns, addOnCategories, addOnPrice, addOnFromPrice, maxQty, type AddOn, type AddOnId } from "@/data/addons";
-import { packages, addOnCoverage, type PackageId } from "@/data/packages";
+import { packages, addOnCoverage, features, featureGroups, isIncluded, valueToHindi, type Package, type PackageId } from "@/data/packages";
 import { business, paymentTerms, SITE_URL, whatsappLink } from "@/data/business";
 import {
     emptyQuote,
@@ -170,7 +170,7 @@ export function QuoteBuilder({ locale = "en" }: { locale?: Locale }) {
     const hasSomething = Boolean(summary.pkg) || summary.lines.length > 0;
 
     return (
-        <div className="container-custom grid gap-10 pb-40 lg:grid-cols-[1fr_400px] lg:gap-12 lg:pb-24">
+        <div data-print-page className="container-custom grid gap-10 pb-40 lg:grid-cols-[1fr_400px] lg:gap-12 lg:pb-24 print:block print:max-w-none print:pb-0">
             <div className="min-w-0 print:hidden">
                 {restored && (
                     <div className="mb-6 flex items-center justify-between gap-3 rounded-2xl border border-accent/40 bg-accent/10 p-4 text-sm">
@@ -296,8 +296,24 @@ export function QuoteBuilder({ locale = "en" }: { locale?: Locale }) {
             </div>
 
             {/* Step 3: summary */}
-            <aside aria-labelledby="step3" className="lg:sticky lg:top-24 lg:self-start" ref={summaryRef} id="quote-summary">
+            <aside aria-labelledby="step3" className="lg:sticky lg:top-24 lg:self-start print:static" ref={summaryRef} id="quote-summary">
                 <div data-print-quote className="rounded-3xl border border-border bg-card p-6">
+                    <div className="mb-6 hidden items-end justify-between border-b-2 border-accent pb-4 print:flex">
+                        <div>
+                            <p className="font-display text-3xl">
+                                {business.name.split(" ")[0]} <span className="italic text-accent">{business.name.split(" ").slice(1).join(" ")}</span>
+                            </p>
+                            <p className="mt-1 text-xs text-foreground-muted">
+                                {business.phones[0].display} · {business.email} · {SITE_URL.replace(/^https?:\/\//, "")}
+                            </p>
+                        </div>
+                        <div className="text-right text-xs text-foreground-muted">
+                            <p className="font-semibold text-foreground">{t.quoteFor}</p>
+                            {details.name && <p>{details.name}</p>}
+                            {details.date && <p>{new Date(details.date).toLocaleDateString(hi ? "hi-IN" : "en-IN", { day: "numeric", month: "long", year: "numeric" })}</p>}
+                            <p>{new Date().toLocaleDateString(hi ? "hi-IN" : "en-IN", { day: "numeric", month: "short", year: "numeric" })}</p>
+                        </div>
+                    </div>
                     <StepHeading n={3} id="step3" title={t.step3} />
                     <p className="mt-1 text-xs text-foreground-muted">
                         {t.ref} {ref} · {t.valid} {paymentTerms.quoteValidityDays} {t.days}
@@ -310,6 +326,22 @@ export function QuoteBuilder({ locale = "en" }: { locale?: Locale }) {
                             <Line key={l.addOn.id} label={`${hi ? l.addOn.nameHi : l.addOn.name}${l.label ? ` × ${qtyLabel(l.addOn, l.qty, locale)}` : ""}`} value={l.price} onRemove={() => setQty(l.addOn.id, 0)} removeLabel={tc.remove} />
                         ))}
                     </dl>
+
+                    {summary.pkg && (
+                        <>
+                            <details className="group mt-5 rounded-2xl border border-border p-4 print:hidden">
+                                <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between text-sm font-medium [&::-webkit-details-marker]:hidden">
+                                    {t.whatsIncluded.replace("{name}", summary.pkg.name)}
+                                    <Plus className="h-4 w-4 transition-transform group-open:rotate-45" aria-hidden />
+                                </summary>
+                                <PackageIncludes pkg={summary.pkg} locale={locale} className="mt-3" />
+                            </details>
+                            <div className="mt-5 hidden break-inside-avoid border-t border-border pt-5 print:block">
+                                <p className="text-sm font-semibold">{t.whatsIncluded.replace("{name}", summary.pkg.name)}</p>
+                                <PackageIncludes pkg={summary.pkg} locale={locale} className="mt-3" />
+                            </div>
+                        </>
+                    )}
 
                     <div className="mt-5 border-t border-border pt-5">
                         <div className="flex items-baseline justify-between">
@@ -351,7 +383,7 @@ export function QuoteBuilder({ locale = "en" }: { locale?: Locale }) {
                             <Share2 className="h-4 w-4" aria-hidden /> {t.share}
                         </button>
                         <div className="grid grid-cols-2 gap-2">
-                            <button type="button" onClick={copyLink} disabled={!hasSomething} className="btn btn-outline whitespace-nowrap px-3 text-xs disabled:opacity-50">
+                            <button type="button" onClick={copyLink} disabled={!hasSomething} className="btn btn-outline whitespace-nowrap px-3 text-xs disabled:cursor-not-allowed disabled:opacity-50">
                                 <Link2 className="h-4 w-4" aria-hidden /> {t.copy}
                             </button>
                             <button
@@ -361,7 +393,7 @@ export function QuoteBuilder({ locale = "en" }: { locale?: Locale }) {
                                     window.print();
                                 }}
                                 disabled={!hasSomething}
-                                className="btn btn-outline px-3 text-xs disabled:opacity-50"
+                                className="btn btn-outline px-3 text-xs disabled:cursor-not-allowed disabled:opacity-50"
                             >
                                 <Download className="h-4 w-4" aria-hidden /> {t.pdf}
                             </button>
@@ -571,6 +603,43 @@ export function BuilderFallback() {
             <Link href="/packages" className="sr-only">
                 See packages <ArrowRight />
             </Link>
+        </div>
+    );
+}
+
+/** Every feature the package includes, grouped, with its quantity or qualifier. Used on screen and in the PDF. */
+function PackageIncludes({ pkg, locale, className }: { pkg: Package; locale: Locale; className?: string }) {
+    const hi = locale === "hi";
+    const valueText = (id: (typeof features)[number]["id"], v: Package["values"][typeof id]) => {
+        if (typeof v === "number") return id === "ledWall" ? (hi ? `${v} वॉल` : `${v} wall${v > 1 ? "s" : ""}`) : `× ${v}`;
+        if (typeof v === "string") return hi ? valueToHindi(v) : v;
+        return "";
+    };
+    return (
+        <div className={cn("grid gap-4 text-sm print:grid-cols-2 print:gap-x-8", className)}>
+            {featureGroups.map((g) => {
+                const items = features.filter((f) => f.group === g.id && isIncluded(pkg.values[f.id]));
+                if (!items.length) return null;
+                return (
+                    <div key={g.id} className="break-inside-avoid">
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-foreground-muted">{hi ? g.labelHi : g.label}</p>
+                        <ul className="mt-1.5 space-y-1">
+                            {items.map((f) => {
+                                const extra = f.universal ? "" : valueText(f.id, pkg.values[f.id]);
+                                return (
+                                    <li key={f.id} className="flex gap-2">
+                                        <Check className="mt-0.5 h-4 w-4 shrink-0 text-success" aria-hidden />
+                                        <span>
+                                            {f.universal ? (hi ? f.universal.labelHi : f.universal.label) : hi ? f.labelHi : f.label}
+                                            {extra && <span className="text-foreground-muted">: {extra}</span>}
+                                        </span>
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    </div>
+                );
+            })}
         </div>
     );
 }

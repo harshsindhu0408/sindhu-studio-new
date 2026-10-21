@@ -39,6 +39,15 @@ export function cheapestFit(reqs: Requirement[]): Fit | undefined {
     return [...evaluatePackages(reqs)].sort((a, b) => a.total - b.total || order(b.pkg.id) - order(a.pkg.id))[0];
 }
 
+/**
+ * The most complete package whose total (add-ons included) stays within budget.
+ * Falls back to the cheapest fit when nothing is affordable.
+ */
+export function bestFitWithin(reqs: Requirement[], max: number): Fit | undefined {
+    const affordable = evaluatePackages(reqs).filter((f) => f.total <= max);
+    return affordable.length ? affordable[affordable.length - 1] : cheapestFit(reqs);
+}
+
 export function bestFit(reqs: Requirement[]): Fit | undefined {
     const fits = evaluatePackages(reqs);
     return fits[fits.length - 1];

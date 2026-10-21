@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start -p 3001",
     "lint": "eslint",
-    "images": "node scripts/optimize-images.mjs"
+    "images": "node scripts/optimize-images.mjs",
+    "images:venue": "node scripts/venue-tech-art.mjs",
+    "favicon": "node scripts/favicon.mjs"
   },
   "dependencies": {
     "@keystar/ui": "^0.10.0",

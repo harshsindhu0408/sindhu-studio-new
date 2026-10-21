@@ -72,7 +72,7 @@ export function Hero({ locale = "en" }: { locale?: Locale }) {
 
 
     return (
-        <section ref={containerRef} className="relative flex min-h-[100svh] items-end overflow-hidden pb-28 md:items-center md:pb-0">
+        <section ref={containerRef} className="relative flex min-h-[100svh] items-end overflow-hidden pb-24 pt-28 md:items-center md:pb-0 md:pt-24">
             <motion.div className="absolute inset-0 z-0" style={{ y }}>
                 <HeroPicture />
                 {/* Legibility scrims */}
@@ -83,7 +83,7 @@ export function Hero({ locale = "en" }: { locale?: Locale }) {
             {/* Always light text: it sits on a photo in both themes */}
             <motion.div className="container-custom relative z-10 text-[#F5EFE6]" style={{ opacity }}>
                 <div className="max-w-2xl">
-                    <p className="hero-in flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-semibold uppercase tracking-[0.25em] text-[#E8C785]" style={{ animationDelay: "0.1s" }}>
+                    <p className="hero-in flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#E8C785] sm:text-xs sm:tracking-[0.25em]" style={{ animationDelay: "0.1s" }}>
                         <span lang="hi" className="font-hindi text-base normal-case tracking-normal text-[#F2A93B]">
                             शुभ विवाह
                         </span>
@@ -91,15 +91,15 @@ export function Hero({ locale = "en" }: { locale?: Locale }) {
                         {hc.eyebrow(business.address.locality, business.foundingYear)}
                     </p>
 
-                    <h1 className="hero-rise mt-6 font-display text-[2.6rem] font-medium leading-[1.05] tracking-tight md:text-7xl lg:text-[5.5rem]" style={{ animationDelay: "0.25s" }}>
+                    <h1 className="hero-rise mt-4 font-display text-[2.3rem] sm:mt-6 sm:text-[2.6rem] font-medium leading-[1.05] tracking-tight md:text-7xl lg:text-[5.5rem]" style={{ animationDelay: "0.25s" }}>
                         {hc.h1a} <span className="italic text-[#E8C785]">{hc.h1em}</span>
                     </h1>
 
-                    <p className="hero-in mt-6 max-w-xl text-base leading-relaxed text-[#F5EFE6]/85 md:text-lg" style={{ animationDelay: "0.45s" }}>
+                    <p className="hero-in mt-4 max-w-xl text-[15px] sm:mt-6 sm:text-base leading-relaxed text-[#F5EFE6]/85 md:text-lg" style={{ animationDelay: "0.45s" }}>
                         {hc.sub(lowestPrice.toLocaleString("en-IN"))}
                     </p>
 
-                    <div className="hero-in mt-10 flex flex-col gap-3 sm:flex-row" style={{ animationDelay: "0.6s" }}>
+                    <div className="hero-in mt-7 flex flex-col gap-3 sm:mt-10 sm:flex-row" style={{ animationDelay: "0.6s" }}>
                         <Link href={localePath(locale, "/build")} className="btn btn-primary">
                             {hc.cta} <ArrowRight className="h-4 w-4" aria-hidden />
                         </Link>
@@ -108,7 +108,7 @@ export function Hero({ locale = "en" }: { locale?: Locale }) {
                         </Link>
                     </div>
 
-                    <ul className="hero-in mt-10 flex flex-wrap gap-x-6 gap-y-2 text-sm text-[#F5EFE6]/75" style={{ animationDelay: "0.75s" }}>
+                    <ul className="hero-in mt-7 flex flex-wrap gap-x-6 sm:mt-10 gap-y-2 text-sm text-[#F5EFE6]/75" style={{ animationDelay: "0.75s" }}>
                         {hc.trust(new Date().getFullYear() - business.foundingYear).map((x) => (
                             <li key={x}>{x}</li>
                         ))}

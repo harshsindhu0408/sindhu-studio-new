@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { PortfolioView } from "@/components/portfolio/PortfolioView";
 import { mediaByCategory, mediaCategories, type MediaCategory } from "@/data/media";
 import { business } from "@/data/business";
+import { languageAlternates } from "@/i18n";
 import { JsonLd, breadcrumbSchema, gallerySchema } from "@/lib/schema";
 
 export const dynamicParams = false;
@@ -25,7 +26,7 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
     return {
         title,
         description,
-        alternates: { canonical: `/portfolio/${cat.id}` },
+        alternates: { canonical: `/portfolio/${cat.id}`, ...languageAlternates(`/portfolio/${cat.id}`) },
         openGraph: { title, description, url: `/portfolio/${cat.id}`, images: cover ? [{ url: cover.src, width: cover.width, height: cover.height, alt: cover.alt }] : undefined },
     };
 }

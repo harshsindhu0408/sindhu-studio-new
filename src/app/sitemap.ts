@@ -33,7 +33,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     const [posts, weddings] = await Promise.all([getJournalPosts(), getWeddings()]);
 
-    return [
+    const english = [
         page("/", 1, "weekly", CONTENT_UPDATED, media.filter((m) => m.featured).map((m) => m.src)),
         page("/packages", 0.95, "monthly"),
         page("/build", 0.9, "monthly"),
@@ -51,13 +51,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         ...posts.map((p) => page(`/journal/${p.slug}`, 0.6, "monthly", p.date ? new Date(p.date) : CONTENT_UPDATED)),
         page("/about", 0.6, "monthly"),
         page("/contact", 0.7, "monthly"),
-        // Hindi pages
-        hindi("/", 0.8, "weekly"),
-        hindi("/packages", 0.8, "monthly"),
-        hindi("/build", 0.7, "monthly"),
-        hindi("/plan", 0.7, "monthly"),
-        hindi("/vivah-muhurat-2027", 0.85, "weekly"),
-        hindi("/add-ons", 0.7, "monthly"),
         // Legal
         page("/privacy", 0.3, "yearly", LEGAL_UPDATED),
         page("/terms", 0.3, "yearly", LEGAL_UPDATED),
@@ -65,4 +58,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         page("/delivery-policy", 0.2, "yearly", LEGAL_UPDATED),
         page("/cookie-policy", 0.2, "yearly", LEGAL_UPDATED),
     ];
+
+    // Every English page has a Hindi twin at /hi/..., at slightly lower priority
+    const hindiPages = english.map((e) => {
+        const path = e.url.slice(SITE_URL.length) || "/";
+        return { ...hindi(path, Math.round((e.priority ?? 0.5) * 0.9 * 100) / 100, e.changeFrequency as Freq), lastModified: e.lastModified };
+    });
+
+    return [...english, ...hindiPages];
 }

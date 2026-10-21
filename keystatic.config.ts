@@ -19,7 +19,7 @@ export default config({
         navigation: {
             Bookings: ["availability"],
             Stories: ["weddings", "reviews"],
-            Journal: ["journal"],
+            Journal: ["journal", "journalHi"],
         },
     },
     singletons: {
@@ -58,6 +58,24 @@ export default config({
             columns: ["title", "date"],
             schema: {
                 title: fields.slug({ name: { label: "Title" } }),
+                date: fields.date({ label: "Published", validation: { isRequired: true } }),
+                excerpt: fields.text({ label: "Summary (shown in lists and Google)", multiline: true, validation: { length: { max: 200 } } }),
+                cover: fields.image({ label: "Cover image", directory: "public/images/journal", publicPath: "/images/journal/" }),
+                coverAlt: fields.text({ label: "Cover image description" }),
+                tags: fields.array(fields.text({ label: "Tag" }), { label: "Tags", itemLabel: (p) => p.value }),
+                content: fields.markdoc({ label: "Article", options: { image: { directory: "public/images/journal", publicPath: "/images/journal/" } } }),
+            },
+        }),
+        // Hindi version of an article: keep the same slug as the English one so the language switch links them
+        journalHi: collection({
+            label: "Journal articles (Hindi / हिंदी)",
+            slugField: "title",
+            path: "content/journal-hi/*",
+            format: { contentField: "content" },
+            entryLayout: "content",
+            columns: ["title", "date"],
+            schema: {
+                title: fields.slug({ name: { label: "Title (Hindi)" }, slug: { label: "Slug (same as the English article)" } }),
                 date: fields.date({ label: "Published", validation: { isRequired: true } }),
                 excerpt: fields.text({ label: "Summary (shown in lists and Google)", multiline: true, validation: { length: { max: 200 } } }),
                 cover: fields.image({ label: "Cover image", directory: "public/images/journal", publicPath: "/images/journal/" }),
