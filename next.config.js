@@ -10,6 +10,8 @@ const nextConfig = {
   experimental: {
     // Optimize CSS
     optimizeCss: true,
+    // app/global-not-found.tsx: the site has two root layouts, (site) and (hi)
+    globalNotFound: true,
   },
   // Enable compression
   compress: true,

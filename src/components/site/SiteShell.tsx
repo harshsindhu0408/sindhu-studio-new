@@ -52,7 +52,8 @@ export function SiteShell({ locale, children }: { locale: Locale; children: Reac
 
     return (
         <html lang={locale === "hi" ? "hi-IN" : "en-IN"} className={fonts} suppressHydrationWarning>
-            <head>
+            {/* Browser extensions (e.g. LocatorJS) add attributes to <head> before hydration */}
+            <head suppressHydrationWarning>
                 {/* Critical: Theme script runs immediately to prevent FOUC */}
                 <script dangerouslySetInnerHTML={{ __html: themeScript }} />
                 {/* Consent Mode v2 defaults must be set before any Google tag loads */}

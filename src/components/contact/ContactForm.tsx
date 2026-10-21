@@ -24,8 +24,8 @@ type FormErrors = Partial<Record<"name" | "email" | "phone" | "message", string>
 
 const copy = {
     en: {
-        title: "Send us your details",
-        subtitle: "Your message is saved with us and opens in WhatsApp, so nothing gets lost.",
+        title: "Or write it all down",
+        subtitle: "Only your name and a few lines are needed. It reaches us and opens in WhatsApp, so nothing gets lost.",
         name: "Your name",
         phone: "Phone number",
         email: "Email",
@@ -35,7 +35,6 @@ const copy = {
         message: "Tell us about your wedding",
         messagePlaceholder: "Functions, venue, number of days, anything you have in mind…",
         optional: "optional",
-        required: "required",
         send: "Send on WhatsApp",
         sending: "Sending…",
         errName: "Please tell us your name",
@@ -53,8 +52,8 @@ const copy = {
         waLabels: { name: "Name", phone: "Phone", email: "Email", service: "Service", date: "Event date", message: "Message" },
     },
     hi: {
-        title: "अपनी जानकारी भेजें",
-        subtitle: "आपका मैसेज हमारे पास सेव होता है और WhatsApp में खुलता है, ताकि कुछ छूटे नहीं।",
+        title: "या सब लिखकर भेजें",
+        subtitle: "बस नाम और दो-चार लाइनें काफ़ी हैं। मैसेज हम तक पहुंचता है और WhatsApp में खुलता है, ताकि कुछ छूटे नहीं।",
         name: "आपका नाम",
         phone: "फ़ोन नंबर",
         email: "ईमेल",
@@ -64,7 +63,6 @@ const copy = {
         message: "अपनी शादी के बारे में बताएं",
         messagePlaceholder: "फंक्शन, वेन्यू, कितने दिन, जो भी आपके मन में है…",
         optional: "ज़रूरी नहीं",
-        required: "ज़रूरी",
         send: "WhatsApp पर भेजें",
         sending: "भेज रहे हैं…",
         errName: "कृपया अपना नाम लिखें",
@@ -85,9 +83,9 @@ const copy = {
 
 function FieldLabel({ c, htmlFor, text, optional }: { c: (typeof copy)["en"]; htmlFor: string; text: string; optional?: boolean }) {
     return (
-        <label htmlFor={htmlFor} className="mb-1.5 flex items-baseline justify-between text-sm font-medium">
+        <label htmlFor={htmlFor} className="mb-2 block text-sm font-medium">
             {text}
-            <span className="text-xs font-normal text-foreground-muted">{optional ? c.optional : c.required}</span>
+            {optional && <span className="font-normal text-foreground-muted"> ({c.optional})</span>}
         </label>
     );
 }
@@ -101,7 +99,7 @@ function FieldError({ id, msg }: { id: string; msg?: string }) {
 }
 
 const inputClass =
-    "w-full rounded-xl border bg-background px-4 py-3 text-foreground outline-none transition-colors placeholder:text-foreground-muted/60 focus:border-accent focus:ring-2 focus:ring-accent/20";
+    "w-full rounded-sm border bg-card px-4 py-3 text-foreground outline-none transition-colors placeholder:text-foreground-muted/60 focus:border-foreground";
 
 export function ContactForm({ locale = "en" }: { locale?: Locale }) {
     const c = copy[locale];
@@ -178,11 +176,11 @@ export function ContactForm({ locale = "en" }: { locale?: Locale }) {
 
     if (isSubmitted) {
         return (
-            <div role="status" className="flex flex-col items-center rounded-3xl border border-border bg-card px-6 py-16 text-center">
+            <div role="status" className="flex flex-col items-start py-10">
                 <span className="flex h-16 w-16 items-center justify-center rounded-full bg-success/15 text-success">
                     <CheckCircle2 className="h-8 w-8" aria-hidden />
                 </span>
-                <h2 className="mt-6 font-display text-3xl">{c.doneTitle}</h2>
+                <h2 className="mt-6 font-display text-3xl md:text-4xl">{c.doneTitle}</h2>
                 <p className="mt-2 max-w-sm text-foreground-muted">{c.doneBody}</p>
                 <p className="mt-4 text-sm">
                     <a href={whatsappLink()} className="text-accent underline underline-offset-2" target="_blank" rel="noopener noreferrer">
@@ -198,9 +196,9 @@ export function ContactForm({ locale = "en" }: { locale?: Locale }) {
     }
 
     return (
-        <form onSubmit={handleSubmit} noValidate className="rounded-3xl border border-border bg-card p-6 md:p-8">
-            <h2 className="font-display text-2xl md:text-3xl">{c.title}</h2>
-            <p className="mt-1 text-sm text-foreground-muted">{c.subtitle}</p>
+        <form onSubmit={handleSubmit} noValidate className="relative">
+            <h2 className="font-display text-3xl md:text-4xl">{c.title}</h2>
+            <p className="mt-3 max-w-lg text-foreground-muted">{c.subtitle}</p>
 
             {/* Honeypot: hidden from people, bots fill it */}
             <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
@@ -210,7 +208,7 @@ export function ContactForm({ locale = "en" }: { locale?: Locale }) {
                 </label>
             </div>
 
-            <div className="mt-6 grid gap-5 md:grid-cols-2">
+            <div className="mt-8 grid gap-6 md:grid-cols-2">
                 <div>
                     <FieldLabel c={c} htmlFor="name" text={c.name} />
                     <input id="name" name="name" autoComplete="name" value={formData.name} onChange={set("name")} aria-invalid={!!errors.name} aria-describedby="name-err" className={cn(inputClass, errors.name ? "border-error" : "border-border")} />
@@ -253,12 +251,12 @@ export function ContactForm({ locale = "en" }: { locale?: Locale }) {
                 </div>
                 <div className="md:col-span-2">
                     <FieldLabel c={c} htmlFor="message" text={c.message} />
-                    <textarea id="message" name="message" rows={4} value={formData.message} onChange={set("message")} placeholder={c.messagePlaceholder} aria-invalid={!!errors.message} aria-describedby="message-err" className={cn(inputClass, "resize-y", errors.message ? "border-error" : "border-border")} />
+                    <textarea id="message" name="message" rows={5} value={formData.message} onChange={set("message")} placeholder={c.messagePlaceholder} aria-invalid={!!errors.message} aria-describedby="message-err" className={cn(inputClass, "resize-y", errors.message ? "border-error" : "border-border")} />
                     <FieldError id="message-err" msg={errors.message} />
                 </div>
             </div>
 
-            <button type="submit" disabled={isSubmitting} className="btn btn-primary mt-6 w-full disabled:opacity-50">
+            <button type="submit" disabled={isSubmitting} className="btn btn-primary mt-8 w-full disabled:opacity-50 sm:w-auto">
                 {isSubmitting ? c.sending : c.send} <Send className="h-4 w-4" aria-hidden />
             </button>
         </form>
